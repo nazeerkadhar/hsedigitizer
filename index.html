@@ -3,159 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>HSE Documentation Portal - LME</title>
+  <title>HSE Portal - LME</title>
   <style>
     :root {
-      /* 🎨 FRESH COLOR PALETTE - Fully Revised */
-      --primary: #7c3aed;        /* Vibrant Purple */
-      --primary-dark: #6d28d9;
-      --primary-light: #8b5cf6;
-      --accent: #06b6d4;         /* Cyan Accent */
-      --success: #22c55e;        /* Fresh Green */
-      --warning: #f97316;        /* Warm Orange */
-      --danger: #ef4444;         /* Alert Red */
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #475569;
-      --border: #e2e8f0;
-      --shadow: 0 6px 20px rgba(124, 58, 237, 0.12);
-      --radius: 16px;
+      /* 🎨 FRESH DASHBOARD PALETTE - Safety Monitoring App Style */
+      --bg: #0f172a;           /* Dark Navy Background */
+      --card: #1e293b;         /* Dark Card */
+      --card-hover: #334155;
+      --primary: #06b6d4;      /* Cyan Primary */
+      --primary-glow: rgba(6, 182, 212, 0.4);
+      --accent: #f59e0b;       /* Amber Accent */
+      --success: #22c55e;      /* Green Success */
+      --warning: #f97316;      /* Orange Warning */
+      --danger: #ef4444;       /* Red Danger */
+      --text: #f1f5f9;         /* Light Text */
+      --muted: #94a3b8;        /* Muted Text */
+      --border: #334155;       /* Dark Border */
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --radius: 18px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { 
-      background: linear-gradient(135deg, #f0f9ff 0%, #faf5ff 50%, #f0fdf4 100%); 
+      background: var(--bg); 
       color: var(--text); 
       line-height: 1.5; 
       min-height: 100vh; 
-      padding-bottom: 30px; 
+      padding-bottom: 40px; 
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(6,182,212,0.08) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(245,158,11,0.08) 0%, transparent 40%);
     }
     
-    /* 🎨 HEADER - VIBRANT PURPLE GRADIENT */
+    /* 🎨 HEADER - MODERN DARK DASHBOARD STYLE */
     .header { 
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); 
       color: #fff; 
-      padding: 18px 14px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      flex-wrap: wrap; 
-      gap: 14px; 
-      border-radius: 0 0 24px 24px;
-      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
-      position: relative;
-      overflow: hidden;
-    }
-    .header::before, .header::after {
-      content: '';
-      position: absolute;
-      width: 150px; height: 150px;
-      background: rgba(255,255,255,0.12);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .header::before { top: -60px; right: -30px; }
-    .header::after { bottom: -40px; left: -20px; width: 100px; height: 100px; }
-    
-    .logo-wrap { 
-      width: 58px; height: 58px; 
-      background: #fff; 
-      border-radius: 12px; 
-      padding: 6px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
+      padding: 20px 16px; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      flex-shrink: 0; 
-      z-index: 1;
-      border: 2px solid rgba(255,255,255,0.3);
+      flex-wrap: wrap; 
+      gap: 16px; 
+      border-bottom: 2px solid var(--primary);
+      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo-wrap { 
+      width: 60px; height: 60px; 
+      background: #0f172a; 
+      border-radius: 14px; 
+      padding: 6px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      flex-shrink: 0;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
     }
     .logo-wrap img { 
       max-width: 100%; 
       max-height: 100%; 
       object-fit: contain; 
       display: block; 
-      image-rendering: -webkit-optimize-contrast;
+      filter: brightness(1.1);
     }
     .org-center { 
-      flex: 1; 
       text-align: center; 
-      min-width: 0; 
       padding: 0 10px; 
-      z-index: 1;
+      max-width: 320px;
     }
     .org-name { 
-      font-size: 13px; 
+      font-size: 14px; 
       font-weight: 800; 
       margin-bottom: 4px; 
       text-transform: uppercase; 
       letter-spacing: 0.6px; 
       line-height: 1.2; 
-      color: #ffffff;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     .org-line { 
-      font-size: 9.5px; 
-      color: #e9d5ff; 
+      font-size: 10px; 
+      color: var(--muted); 
       margin: 2px 0; 
-      line-height: 1.35; 
+      line-height: 1.4; 
     }
     
-    .portal-badge { 
+    .portal-title { 
       text-align: center; 
-      font-size: 11px; 
+      font-size: 13px; 
       font-weight: 800; 
       color: var(--primary); 
-      background: linear-gradient(135deg, #fff 0%, #f5f3ff 100%); 
-      padding: 8px 18px; 
+      background: rgba(6, 182, 212, 0.12); 
+      padding: 8px 20px; 
       margin: 14px auto 0; 
-      max-width: 92%; 
-      border-radius: 24px; 
-      letter-spacing: 1px; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      max-width: 95%; 
+      border-radius: 26px; 
+      letter-spacing: 1.2px; 
+      border: 1px solid var(--primary);
+      box-shadow: 0 0 16px var(--primary-glow);
       display: inline-block;
-      border: 2px solid var(--primary-light);
     }
-    .badge-wrap { text-align: center; }
 
-    /* 🔍 SEARCH - MODERN CYAN BORDER */
-    .search-wrap { max-width: 800px; margin: 20px auto 0; padding: 0 14px; }
+    /* 🔍 SEARCH - GLOWING CYAN INPUT */
+    .search-wrap { max-width: 700px; margin: 22px auto 0; padding: 0 16px; }
     .search-box { 
       width: 100%; 
-      padding: 15px 18px; 
-      border: 2.5px solid var(--accent); 
+      padding: 16px 20px; 
+      border: 2px solid var(--primary); 
       border-radius: var(--radius); 
       font-size: 15px; 
       outline: none; 
-      background: #fff; 
+      background: var(--card); 
       color: var(--text);
-      box-shadow: 0 4px 14px rgba(6, 182, 212, 0.15);
+      box-shadow: 0 0 0 4px transparent;
       transition: all 0.3s ease;
     }
+    .search-box::placeholder { color: var(--muted); }
     .search-box:focus { 
-      border-color: var(--primary); 
-      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2); 
-      transform: translateY(-1px);
+      border-color: var(--accent); 
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25); 
+      transform: translateY(-2px);
     }
 
-    /* 📑 TABS - VIBRANT & TOUCH OPTIMIZED */
+    /* 📑 TABS - MODERN PILL STYLE WITH GLOW */
     .tabs { 
-      max-width: 800px; 
-      margin: 16px auto 0; 
-      padding: 0 14px; 
+      max-width: 700px; 
+      margin: 18px auto 0; 
+      padding: 0 16px; 
       display: flex; 
       gap: 10px; 
       overflow-x: auto; 
       scrollbar-width: none; 
-      -ms-overflow-style: none; 
       scroll-behavior: smooth; 
     }
     .tabs::-webkit-scrollbar { display: none; }
     .tab { 
       padding: 11px 18px; 
-      background: #fff; 
-      border: 2px solid var(--border); 
-      border-radius: 26px; 
+      background: var(--card); 
+      border: 1.5px solid var(--border); 
+      border-radius: 28px; 
       cursor: pointer; 
       font-size: 12.5px; 
       font-weight: 700; 
@@ -165,30 +154,38 @@
       min-height: 46px;
       display: flex; 
       align-items: center;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
     }
-    .tab:active { transform: scale(0.95); }
+    .tab::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      opacity: 0;
+      transition: opacity 0.25s;
+      z-index: -1;
+    }
+    .tab:active { transform: scale(0.96); }
     .tab.active { 
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); 
       color: #fff; 
-      border-color: transparent; 
-      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.35); 
-      font-weight: 800;
+      border-color: transparent;
+      box-shadow: 0 4px 18px var(--primary-glow);
     }
+    .tab.active::before { opacity: 1; }
 
-    /* 📄 GRID - COLORFUL CARDS WITH GRADIENT ACCENTS */
-    .container { max-width: 900px; margin: 20px auto; padding: 0 14px; }
-    .doc-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    /* 📄 GRID - MODERN DASHBOARD CARDS */
+    .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+    .doc-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
     .doc-card { 
-      background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%); 
+      background: var(--card); 
       border-radius: var(--radius); 
       padding: 20px; 
       display: flex; 
       flex-direction: column; 
       gap: 14px; 
-      box-shadow: var(--shadow); 
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      border-left: 6px solid var(--primary);
+      border: 1px solid var(--border);
+      transition: all 0.25s ease;
       position: relative;
       overflow: hidden;
     }
@@ -198,29 +195,32 @@
       top: 0; left: 0; right: 0;
       height: 4px;
       background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 50%, var(--success) 100%);
+      opacity: 0.9;
     }
     .doc-card:hover { 
       transform: translateY(-4px); 
-      box-shadow: 0 12px 32px rgba(124, 58, 237, 0.2); 
+      border-color: var(--primary);
+      box-shadow: 0 12px 40px rgba(6, 182, 212, 0.25);
+      background: var(--card-hover);
+    }
+    .doc-badge { 
+      font-size: 10px; 
+      font-weight: 800; 
+      color: #fff; 
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); 
+      padding: 4px 12px; 
+      border-radius: 14px; 
+      display: inline-block; 
+      width: fit-content; 
+      margin-bottom: 6px;
+      letter-spacing: 0.4px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
     .doc-name { 
       font-size: 14.5px; 
       font-weight: 700; 
       color: var(--text); 
       line-height: 1.4; 
-    }
-    .doc-ref { 
-      font-size: 10.5px; 
-      font-weight: 800; 
-      color: var(--primary); 
-      background: linear-gradient(135deg, #ede9fe 0%, #e0e7ff 100%); 
-      padding: 4px 12px; 
-      border-radius: 14px; 
-      display: inline-block; 
-      width: fit-content; 
-      margin-bottom: 6px;
-      border: 1px solid var(--primary-light);
-      letter-spacing: 0.3px;
     }
     .btn-view { 
       width: 100%; 
@@ -235,13 +235,19 @@
       min-height: 48px; 
       transition: all 0.25s ease; 
       letter-spacing: 0.5px;
-      box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+      position: relative;
+      overflow: hidden;
     }
+    .btn-view::after {
+      content: '→';
+      margin-left: 6px;
+      transition: transform 0.2s;
+    }
+    .btn-view:hover::after { transform: translateX(4px); }
     .btn-view:active { 
-      transform: scale(0.97); 
+      transform: scale(0.98); 
       opacity: 0.95; 
-      box-shadow: 0 3px 10px rgba(34, 197, 94, 0.25);
     }
     .no-results { 
       grid-column: 1 / -1; 
@@ -249,56 +255,49 @@
       padding: 40px 20px; 
       color: var(--muted); 
       font-size: 15px; 
-      background: #fff; 
+      background: var(--card); 
       border-radius: var(--radius); 
-      box-shadow: var(--shadow); 
       border: 2px dashed var(--border);
     }
 
     .footer { 
       text-align: center; 
-      padding: 22px 15px; 
-      font-size: 11.5px; 
-      color: #64748b; 
-      margin-top: 28px; 
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); 
-      border-top: 2px solid var(--border); 
-      border-radius: var(--radius) var(--radius) 0 0;
-      max-width: 900px; 
+      padding: 24px 16px; 
+      font-size: 11px; 
+      color: var(--muted); 
+      margin-top: 32px; 
+      border-top: 1px solid var(--border);
+      max-width: 1100px; 
       margin-left: auto; 
       margin-right: auto;
-      font-weight: 500;
     }
     
-    /* 📱 RESPONSIVE BREAKPOINTS */
-    @media (min-width: 600px) {
+    @media (min-width: 640px) {
       .doc-grid { grid-template-columns: repeat(2, 1fr); }
-      .logo-wrap { width: 68px; height: 68px; }
+      .logo-wrap { width: 70px; height: 70px; }
       .org-name { font-size: 15px; }
       .org-line { font-size: 11px; }
     }
-    @media (min-width: 850px) {
+    @media (min-width: 900px) {
       .doc-grid { grid-template-columns: repeat(3, 1fr); }
     }
   </style>
 </head>
 <body>
   <header class="header">
-    <div class="logo-wrap"><img src="logo-left.png" alt="LME Left"></div>
+    <div class="logo-wrap"><img src="logo-left.png" alt="LME"></div>
     <div class="org-center">
       <div class="org-name">LINK MIDDLE EAST GENERAL CONTRACTING CO</div>
       <div class="org-line">P.O. Box: 51070, ABU DHABI - U.A.E.</div>
-      <div class="org-line">Tel.: (9712) 658 8504 | FAX: (9712) 658 8505</div>
-      <div class="org-line">E-mail: lmedubai@eim.ae</div>
-      <div class="org-line">H.O: P. O. Box:16846 | TEL.: (9714) 881 6750</div>
+      <div class="org-line">Tel: (9712) 658 8504 | lmedubai@eim.ae</div>
     </div>
-    <div class="logo-wrap"><img src="logo-right.png" alt="LME Right"></div>
+    <div class="logo-wrap"><img src="logo-right.png" alt="LME"></div>
   </header>
   
-  <div class="badge-wrap"><div class="portal-badge">📑 HSE DOCUMENTATION PORTAL</div></div>
+  <div style="text-align:center"><div class="portal-title">📑 HSE DOCUMENTATION PORTAL</div></div>
 
   <div class="search-wrap">
-    <input type="text" id="search" class="search-box" placeholder="🔍 Search documents by name...">
+    <input type="text" id="search" class="search-box" placeholder="🔍 Search documents...">
   </div>
 
   <nav class="tabs" id="tabs">
@@ -308,14 +307,14 @@
     <button class="tab" data-cat="training">🎓 Training</button>
     <button class="tab" data-cat="incident">🚨 Incidents</button>
     <button class="tab" data-cat="report">📊 Reports</button>
-    <button class="tab" data-cat="procedure">📁 Plans & Procedures</button>
+    <button class="tab" data-cat="procedure">📁 Plans</button>
   </nav>
 
   <main class="container">
     <div id="doc-grid" class="doc-grid"></div>
   </main>
 
-  <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal | Secure & Mobile Ready</footer>
+  <footer class="footer">© 2026 LINK MIDDLE EAST | HSE Compliance Portal</footer>
 
   <script>
     const docs = [
@@ -389,11 +388,11 @@
       const filtered = docs.filter(d => (activeCat === 'all' || d.cat === activeCat) && d.name.toLowerCase().includes(q));
       grid.innerHTML = filtered.length ? filtered.map(d => `
         <div class="doc-card">
-          <div class="doc-ref">📄 FORM</div>
+          <div class="doc-badge">📄 FORM</div>
           <div class="doc-name">${d.name}</div>
-          <button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Ready to connect form)')">Open Form →</button>
+          <button class="btn-view" onclick="alert('Opening: ${d.name}')">Open</button>
         </div>
-      `).join('') : '<div class="no-results">🔍 No documents match your search</div>';
+      `).join('') : '<div class="no-results">🔍 No documents found</div>';
     }
 
     tabs.forEach(btn => btn.addEventListener('click', () => {
