@@ -3,301 +3,148 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>HSE Portal - LME</title>
+  <title>HSE Documentation Portal - LME</title>
   <style>
     :root {
-      /* 🎨 FRESH DASHBOARD PALETTE - Safety Monitoring App Style */
-      --bg: #0f172a;           /* Dark Navy Background */
-      --card: #1e293b;         /* Dark Card */
-      --card-hover: #334155;
-      --primary: #06b6d4;      /* Cyan Primary */
-      --primary-glow: rgba(6, 182, 212, 0.4);
-      --accent: #f59e0b;       /* Amber Accent */
-      --success: #22c55e;      /* Green Success */
-      --warning: #f97316;      /* Orange Warning */
-      --danger: #ef4444;       /* Red Danger */
-      --text: #f1f5f9;         /* Light Text */
-      --muted: #94a3b8;        /* Muted Text */
-      --border: #334155;       /* Dark Border */
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --radius: 18px;
+      /* 🎨 LIGHT GREY THEME - Professional & Clean */
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --primary: #1e3a8a;
+      --primary-light: #2563eb;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --shadow: 0 4px 16px rgba(0,0,0,0.06);
+      --radius: 14px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { 
       background: var(--bg); 
       color: var(--text); 
       line-height: 1.5; 
       min-height: 100vh; 
-      padding-bottom: 40px; 
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(6,182,212,0.08) 0%, transparent 40%),
-        radial-gradient(circle at 80% 20%, rgba(245,158,11,0.08) 0%, transparent 40%);
+      padding-bottom: 30px; 
     }
+    img { max-width: 100%; display: block; }
     
-    /* 🎨 HEADER - MODERN DARK DASHBOARD STYLE */
+    /* 📱 MOBILE HEADER: Stacked Layout */
     .header { 
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); 
+      background: linear-gradient(135deg, var(--primary) 0%, #0f172a 100%); 
       color: #fff; 
-      padding: 20px 16px; 
+      padding: 18px 12px; 
       display: flex; 
+      flex-direction: column; 
       align-items: center; 
-      justify-content: center; 
-      flex-wrap: wrap; 
-      gap: 16px; 
-      border-bottom: 2px solid var(--primary);
-      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      gap: 14px; 
+      border-bottom: 3px solid var(--accent);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
     .logo-wrap { 
-      width: 60px; height: 60px; 
-      background: #0f172a; 
-      border-radius: 14px; 
+      width: 65px; height: 65px; 
+      background: #fff; 
+      border-radius: 12px; 
       padding: 6px; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
       flex-shrink: 0;
-      border: 2px solid var(--primary);
-      box-shadow: 0 0 20px var(--primary-glow);
+      border: 2px solid rgba(255,255,255,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
-    .logo-wrap img { 
-      max-width: 100%; 
-      max-height: 100%; 
-      object-fit: contain; 
-      display: block; 
-      filter: brightness(1.1);
-    }
-    .org-center { 
-      text-align: center; 
-      padding: 0 10px; 
-      max-width: 320px;
-    }
-    .org-name { 
-      font-size: 14px; 
-      font-weight: 800; 
-      margin-bottom: 4px; 
-      text-transform: uppercase; 
-      letter-spacing: 0.6px; 
-      line-height: 1.2; 
-      color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-    .org-line { 
-      font-size: 10px; 
-      color: var(--muted); 
-      margin: 2px 0; 
-      line-height: 1.4; 
-    }
+    .org-center { text-align: center; padding: 0 8px; width: 100%; }
+    .org-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; color: #fff; }
+    .org-line { font-size: 10px; color: #cbd5e1; margin: 2px 0; line-height: 1.35; }
     
-    .portal-title { 
-      text-align: center; 
-      font-size: 13px; 
-      font-weight: 800; 
-      color: var(--primary); 
-      background: rgba(6, 182, 212, 0.12); 
-      padding: 8px 20px; 
-      margin: 14px auto 0; 
-      max-width: 95%; 
-      border-radius: 26px; 
-      letter-spacing: 1.2px; 
-      border: 1px solid var(--primary);
-      box-shadow: 0 0 16px var(--primary-glow);
-      display: inline-block;
+    .portal-badge { 
+      text-align: center; font-size: 11.5px; font-weight: 700; color: var(--primary); 
+      background: #fff; padding: 7px 16px; margin: 0 auto 16px; max-width: 92%; 
+      border-radius: 22px; letter-spacing: 0.8px; box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      display: inline-block; border: 1.5px solid var(--primary-light);
     }
 
-    /* 🔍 SEARCH - GLOWING CYAN INPUT */
-    .search-wrap { max-width: 700px; margin: 22px auto 0; padding: 0 16px; }
+    /* 💻 DESKTOP HEADER: Side-by-Side Layout */
+    @media (min-width: 768px) {
+      .header { flex-direction: row; justify-content: space-between; padding: 16px 24px; gap: 20px; }
+      .logo-wrap { width: 75px; height: 75px; }
+      .org-name { font-size: 16px; }
+      .org-line { font-size: 11.5px; }
+    }
+
+    /* 🔍 SEARCH BAR */
+    .search-wrap { max-width: 900px; margin: 0 auto 16px; padding: 0 14px; }
     .search-box { 
-      width: 100%; 
-      padding: 16px 20px; 
-      border: 2px solid var(--primary); 
-      border-radius: var(--radius); 
-      font-size: 15px; 
-      outline: none; 
-      background: var(--card); 
-      color: var(--text);
-      box-shadow: 0 0 0 4px transparent;
-      transition: all 0.3s ease;
+      width: 100%; padding: 14px 18px; border: 2px solid var(--border); 
+      border-radius: var(--radius); font-size: 15px; outline: none; 
+      background: var(--card); color: var(--text); box-shadow: var(--shadow);
+      transition: border 0.2s, box-shadow 0.2s;
     }
-    .search-box::placeholder { color: var(--muted); }
-    .search-box:focus { 
-      border-color: var(--accent); 
-      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25); 
-      transform: translateY(-2px);
-    }
+    .search-box:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
 
-    /* 📑 TABS - MODERN PILL STYLE WITH GLOW */
-    .tabs { 
-      max-width: 700px; 
-      margin: 18px auto 0; 
-      padding: 0 16px; 
-      display: flex; 
-      gap: 10px; 
-      overflow-x: auto; 
-      scrollbar-width: none; 
-      scroll-behavior: smooth; 
-    }
+    /* 📑 TABS */
+    .tabs { max-width: 900px; margin: 0 auto 18px; padding: 0 14px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
     .tab { 
-      padding: 11px 18px; 
-      background: var(--card); 
-      border: 1.5px solid var(--border); 
-      border-radius: 28px; 
-      cursor: pointer; 
-      font-size: 12.5px; 
-      font-weight: 700; 
-      white-space: nowrap; 
-      transition: all 0.25s ease; 
-      color: var(--muted); 
-      min-height: 46px;
-      display: flex; 
-      align-items: center;
-      position: relative;
-      overflow: hidden;
+      padding: 10px 16px; background: var(--card); border: 1.5px solid var(--border); 
+      border-radius: 24px; cursor: pointer; font-size: 12.5px; font-weight: 600; 
+      white-space: nowrap; transition: all 0.2s; color: var(--muted); min-height: 44px;
+      display: flex; align-items: center;
     }
-    .tab::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-      opacity: 0;
-      transition: opacity 0.25s;
-      z-index: -1;
-    }
+    .tab:hover { background: #f9fafb; }
     .tab:active { transform: scale(0.96); }
-    .tab.active { 
-      color: #fff; 
-      border-color: transparent;
-      box-shadow: 0 4px 18px var(--primary-glow);
-    }
-    .tab.active::before { opacity: 1; }
+    .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 12px rgba(30,58,138,0.25); }
 
-    /* 📄 GRID - MODERN DASHBOARD CARDS */
-    .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
-    .doc-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    /* 📄 GRID & CARDS */
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 14px; }
+    .doc-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
     .doc-card { 
-      background: var(--card); 
-      border-radius: var(--radius); 
-      padding: 20px; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 14px; 
-      border: 1px solid var(--border);
-      transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border-radius: var(--radius); padding: 18px; 
+      border: 1px solid var(--border); box-shadow: var(--shadow); 
+      transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
     }
     .doc-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 50%, var(--success) 100%);
-      opacity: 0.9;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
     }
-    .doc-card:hover { 
-      transform: translateY(-4px); 
-      border-color: var(--primary);
-      box-shadow: 0 12px 40px rgba(6, 182, 212, 0.25);
-      background: var(--card-hover);
-    }
+    .doc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
     .doc-badge { 
-      font-size: 10px; 
-      font-weight: 800; 
-      color: #fff; 
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); 
-      padding: 4px 12px; 
-      border-radius: 14px; 
-      display: inline-block; 
-      width: fit-content; 
-      margin-bottom: 6px;
-      letter-spacing: 0.4px;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      font-size: 10px; font-weight: 700; color: var(--primary); background: #dbeafe; 
+      padding: 3px 10px; border-radius: 12px; display: inline-block; margin-bottom: 6px;
+      border: 1px solid var(--primary-light);
     }
-    .doc-name { 
-      font-size: 14.5px; 
-      font-weight: 700; 
-      color: var(--text); 
-      line-height: 1.4; 
-    }
+    .doc-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.35; margin-bottom: 10px; }
     .btn-view { 
-      width: 100%; 
-      padding: 14px; 
-      background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%); 
-      color: #fff; 
-      border: none; 
-      border-radius: 12px; 
-      cursor: pointer; 
-      font-weight: 800; 
-      font-size: 13.5px; 
-      min-height: 48px; 
-      transition: all 0.25s ease; 
-      letter-spacing: 0.5px;
-      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
-      position: relative;
-      overflow: hidden;
+      width: 100%; padding: 12px; background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%); 
+      color: #fff; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; 
+      font-size: 13px; min-height: 44px; transition: opacity 0.2s;
     }
-    .btn-view::after {
-      content: '→';
-      margin-left: 6px;
-      transition: transform 0.2s;
-    }
-    .btn-view:hover::after { transform: translateX(4px); }
-    .btn-view:active { 
-      transform: scale(0.98); 
-      opacity: 0.95; 
-    }
-    .no-results { 
-      grid-column: 1 / -1; 
-      text-align: center; 
-      padding: 40px 20px; 
-      color: var(--muted); 
-      font-size: 15px; 
-      background: var(--card); 
-      border-radius: var(--radius); 
-      border: 2px dashed var(--border);
-    }
+    .btn-view:hover { opacity: 0.9; }
+    .no-results { grid-column: 1 / -1; text-align: center; padding: 30px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
 
-    .footer { 
-      text-align: center; 
-      padding: 24px 16px; 
-      font-size: 11px; 
-      color: var(--muted); 
-      margin-top: 32px; 
-      border-top: 1px solid var(--border);
-      max-width: 1100px; 
-      margin-left: auto; 
-      margin-right: auto;
-    }
+    .footer { text-align: center; padding: 20px 15px; font-size: 11px; color: var(--muted); margin-top: 24px; border-top: 1px solid var(--border); background: #fff; max-width: 1000px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
     
-    @media (min-width: 640px) {
-      .doc-grid { grid-template-columns: repeat(2, 1fr); }
-      .logo-wrap { width: 70px; height: 70px; }
-      .org-name { font-size: 15px; }
-      .org-line { font-size: 11px; }
-    }
-    @media (min-width: 900px) {
-      .doc-grid { grid-template-columns: repeat(3, 1fr); }
-    }
+    @media (min-width: 640px) { .doc-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 850px) { .doc-grid { grid-template-columns: repeat(3, 1fr); } }
   </style>
 </head>
 <body>
   <header class="header">
-    <div class="logo-wrap"><img src="logo-left.png" alt="LME"></div>
+    <div class="logo-wrap"><img src="logo-left.png" alt="LME Logo Left"></div>
     <div class="org-center">
       <div class="org-name">LINK MIDDLE EAST GENERAL CONTRACTING CO</div>
       <div class="org-line">P.O. Box: 51070, ABU DHABI - U.A.E.</div>
-      <div class="org-line">Tel: (9712) 658 8504 | lmedubai@eim.ae</div>
+      <div class="org-line">Tel.: (9712) 658 8504 | FAX: (9712) 658 8505</div>
+      <div class="org-line">E-mail: lmedubai@eim.ae</div>
+      <div class="org-line">H.O: P. O. Box:16846 | TEL.: (9714) 881 6750</div>
     </div>
-    <div class="logo-wrap"><img src="logo-right.png" alt="LME"></div>
+    <div class="logo-wrap"><img src="logo-right.png" alt="LME Logo Right"></div>
   </header>
   
-  <div style="text-align:center"><div class="portal-title">📑 HSE DOCUMENTATION PORTAL</div></div>
+  <div style="text-align:center"><div class="portal-badge">📑 HSE DOCUMENTATION PORTAL</div></div>
 
   <div class="search-wrap">
-    <input type="text" id="search" class="search-box" placeholder="🔍 Search documents...">
+    <input type="text" id="search" class="search-box" placeholder="🔍 Search documents by name...">
   </div>
 
   <nav class="tabs" id="tabs">
@@ -314,68 +161,72 @@
     <div id="doc-grid" class="doc-grid"></div>
   </main>
 
-  <footer class="footer">© 2026 LINK MIDDLE EAST | HSE Compliance Portal</footer>
+  <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal</footer>
 
   <script>
+    // 📄 FULL CLEANED LIST: 60 Documents, Duplicates Removed
     const docs = [
       { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy" },
       { name: "ZERO HARM PHILOSOPHY", cat: "policy" },
       { name: "Roles and responsibilities", cat: "policy" },
-      { name: "Mandatory PPE", cat: "policy" },
-      { name: "12 GOLDEN RULES", cat: "policy" },
-      { name: "LME ISO CERTIFICATIONS", cat: "policy" },
-      { name: "Emergency Response Procedure", cat: "policy" },
-      { name: "Emergency Response Team", cat: "policy" },
-      { name: "Reporting Procedures", cat: "policy" },
-      { name: "Evaluation of Legal Compliance LMEGCC", cat: "policy" },
+      { name: "Monthly HSE coordination meeting attendance sheet", cat: "training" },
       { name: "Plant & Vehicle inspection Checklist", cat: "inspection" },
       { name: "Fire Extinguisher Inspection Register", cat: "inspection" },
+      { name: "First Aid Report Form", cat: "incident" },
       { name: "Monthly Power Tools Inspection Log", cat: "inspection" },
       { name: "Housekeeping checklist", cat: "inspection" },
       { name: "Weekly Bus Inspection Checklist", cat: "inspection" },
       { name: "Safety in Heat Checklist", cat: "inspection" },
-      { name: "Daily Pre-Commencement Excavation Checklist", cat: "inspection" },
-      { name: "Monthly Lifting Gear Inspection Report", cat: "inspection" },
-      { name: "Daily HSE Inspection Report", cat: "inspection" },
-      { name: "HSE Monthly Audit Form", cat: "inspection" },
-      { name: "Quarterly Inspection Color Code", cat: "inspection" },
-      { name: "Cleaning Log Sheet", cat: "inspection" },
-      { name: "Working at Height", cat: "inspection" },
-      { name: "HSE Inspection Office & Accommodation Checklist", cat: "inspection" },
-      { name: "Battery Operated Tools Monthly Inspection Log", cat: "inspection" },
-      { name: "Manlift Inspection Checklist", cat: "inspection" },
-      { name: "Monthly HSE Coordination Meeting Attendance", cat: "training" },
-      { name: "HSE Induction Attendance Sheet", cat: "training" },
-      { name: "MSRA Communication Record", cat: "training" },
-      { name: "Weekly HSE Training", cat: "training" },
+      { name: "DAILY PRE-COMMENCEMENT EXCAVATION CHECKLIST", cat: "inspection" },
+      { name: "Monthly Lifting Gear Inspection Report Form", cat: "inspection" },
+      { name: "DAILY HSE INSPECTION REPORT", cat: "inspection" },
+      { name: "HSE INDUCTION ATTENDANCE SHEET", cat: "training" },
+      { name: "MSRA communication Record", cat: "training" },
+      { name: "WEEKLY HSE TRAINING", cat: "training" },
       { name: "Tool Box Talk", cat: "training" },
       { name: "STARRT Briefing", cat: "training" },
       { name: "Confined Space Entry Log sheet", cat: "training" },
-      { name: "Weekly HSE & TBT Training Records", cat: "training" },
-      { name: "Heat Illness TBT", cat: "training" },
-      { name: "HSE Training Matrix", cat: "training" },
-      { name: "Under Ground & Over Head Services", cat: "training" },
-      { name: "LME HSE Induction Slides", cat: "training" },
-      { name: "Induction Sticker", cat: "training" },
-      { name: "First Aid Report Form", cat: "incident" },
-      { name: "Warning Letter", cat: "incident" },
+      { name: "WARNING LETTER", cat: "incident" },
+      { name: "Weekly HSE statistics report", cat: "report" },
+      { name: "MONTHLY HSE REPORT", cat: "report" },
+      { name: "HSE Monthly Audit Form", cat: "inspection" },
+      { name: "LEADERSHIP TOUR", cat: "incident" },
+      { name: "ANNUAL HSE STATISTICS REPORT", cat: "report" },
+      { name: "Mandatory PPE", cat: "policy" },
+      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy" },
+      { name: "EMERGENCY RESPONSE TEAM", cat: "policy" },
+      { name: "Emergency Evacuation Drill Report Form", cat: "policy" },
+      { name: "LME ISO CERTIFICATIONS", cat: "policy" },
+      { name: "12 GOLDEN RULES", cat: "policy" },
+      { name: "Quarterly Inspection Color Code", cat: "inspection" },
       { name: "HSE Observation Summary", cat: "incident" },
-      { name: "Near Miss Register", cat: "incident" },
-      { name: "Accident or Incident Report", cat: "incident" },
-      { name: "HSE Campaign Report", cat: "incident" },
-      { name: "Leadership Tour", cat: "incident" },
-      { name: "Weekly HSE Statistics Report", cat: "report" },
-      { name: "Monthly HSE Report", cat: "report" },
-      { name: "Annual HSE Statistics Report", cat: "report" },
-      { name: "Waste Management Chart", cat: "report" },
+      { name: "WEEKLY HSE & TBT TRAINING RECORDS", cat: "training" },
+      { name: "HSE CAMPAIGN REPORT", cat: "incident" },
+      { name: "HEAT ILLNESS TBT", cat: "training" },
       { name: "Man-Machine Interface", cat: "procedure" },
-      { name: "Safe Operation of Vehicle, Plant & Equipment", cat: "procedure" },
+      { name: "Safe Operation of vehicle, plant & equipment", cat: "procedure" },
       { name: "Manual Handling Safety", cat: "procedure" },
-      { name: "Adverse Weather Conditions", cat: "procedure" },
-      { name: "Journey Management Plan", cat: "procedure" },
+      { name: "CLEANING LOG SHEET", cat: "inspection" },
+      { name: "Under Ground & Over Head Services", cat: "training" },
+      { name: "GENERATOR MAINTENANCE RECORD", cat: "inspection" },
+      { name: "HSE TRAINING MATRIX", cat: "training" },
+      { name: "Near miss Register", cat: "incident" },
+      { name: "WASTE MANAGEMENT CHART", cat: "report" },
+      { name: "WORKING AT HEIGHT", cat: "inspection" },
+      { name: "ADVERSE WEATHER CONDITIONS", cat: "procedure" },
+      { name: "HSE INSPECTION OFFICE & ACCOMODATION CHECKLIST", cat: "inspection" },
       { name: "HSE Plan", cat: "procedure" },
-      { name: "Annual HSE Audit Plan", cat: "procedure" },
-      { name: "Emergency Annual Plan", cat: "procedure" }
+      { name: "JOURNEY MANAGEMENT PLAN", cat: "procedure" },
+      { name: "LME HSE INDUCTION SLIDES", cat: "training" },
+      { name: "ACCIDENT OR INCIDENT REPORT", cat: "incident" },
+      { name: "Annual HSE AUDIT PLAN", cat: "procedure" },
+      { name: "EMERGENCY ANNUAL PLAN", cat: "procedure" },
+      { name: "Battery operated Tools monthly Inspection Log", cat: "inspection" },
+      { name: "internal Monthly KPI format", cat: "report" },
+      { name: "Reporting Procedures", cat: "policy" },
+      { name: "Induction sticker", cat: "training" },
+      { name: "EVALUATION OF LEGAL COMPLIANCE LMEGCC", cat: "policy" },
+      { name: "Manlift Inspection Checklist", cat: "inspection" }
     ];
 
     const grid = document.getElementById('doc-grid');
@@ -390,7 +241,7 @@
         <div class="doc-card">
           <div class="doc-badge">📄 FORM</div>
           <div class="doc-name">${d.name}</div>
-          <button class="btn-view" onclick="alert('Opening: ${d.name}')">Open</button>
+          <button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>
         </div>
       `).join('') : '<div class="no-results">🔍 No documents found</div>';
     }
