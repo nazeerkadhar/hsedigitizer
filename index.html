@@ -6,145 +6,139 @@
   <title>HSE Documentation Portal - LME</title>
   <style>
     :root {
-      /* 🎨 LIGHT GREY THEME - Professional & Clean */
+      /* 🎨 LIGHT GREY CORPORATE THEME */
       --bg: #f3f4f6;
       --card: #ffffff;
       --primary: #1e3a8a;
       --primary-light: #2563eb;
-      --accent: #f59e0b;
-      --success: #10b981;
+      --accent: #d97706;
+      --success: #059669;
       --text: #111827;
       --muted: #6b7280;
-      --border: #d1d5db;
-      --shadow: 0 4px 16px rgba(0,0,0,0.06);
-      --radius: 14px;
+      --border: #e5e7eb;
+      --shadow: 0 3px 12px rgba(0,0,0,0.06);
+      --radius: 12px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { 
-      background: var(--bg); 
-      color: var(--text); 
-      line-height: 1.5; 
-      min-height: 100vh; 
-      padding-bottom: 30px; 
-    }
+    body { background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; padding-bottom: 30px; }
     img { max-width: 100%; display: block; }
     
-    /* 📱 MOBILE HEADER: Stacked Layout */
+    /* 📱 MOBILE HEADER: Logo Top → Org Info → Logo Bottom */
     .header { 
-      background: linear-gradient(135deg, var(--primary) 0%, #0f172a 100%); 
+      background: linear-gradient(180deg, var(--primary) 0%, #1e40af 100%); 
       color: #fff; 
-      padding: 18px 12px; 
+      padding: 16px 12px; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
-      gap: 14px; 
+      gap: 12px; 
       border-bottom: 3px solid var(--accent);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 16px rgba(30,58,138,0.15);
     }
     .logo-wrap { 
-      width: 65px; height: 65px; 
+      width: 55px; height: 55px; 
       background: #fff; 
-      border-radius: 12px; 
-      padding: 6px; 
+      border-radius: 10px; 
+      padding: 5px; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
       flex-shrink: 0;
-      border: 2px solid rgba(255,255,255,0.3);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
-    .org-center { text-align: center; padding: 0 8px; width: 100%; }
-    .org-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; color: #fff; }
-    .org-line { font-size: 10px; color: #cbd5e1; margin: 2px 0; line-height: 1.35; }
+    .org-center { text-align: center; padding: 0 6px; width: 100%; }
+    .org-name { font-size: 13px; font-weight: 800; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.4px; line-height: 1.2; color: #fff; }
+    .org-line { font-size: 9.5px; color: #cbd5e1; margin: 1.5px 0; line-height: 1.35; }
     
     .portal-badge { 
-      text-align: center; font-size: 11.5px; font-weight: 700; color: var(--primary); 
-      background: #fff; padding: 7px 16px; margin: 0 auto 16px; max-width: 92%; 
-      border-radius: 22px; letter-spacing: 0.8px; box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      text-align: center; font-size: 11px; font-weight: 700; color: var(--primary); 
+      background: #fff; padding: 6px 14px; margin: 0 auto 14px; max-width: 92%; 
+      border-radius: 20px; letter-spacing: 0.6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       display: inline-block; border: 1.5px solid var(--primary-light);
     }
 
-    /* 💻 DESKTOP HEADER: Side-by-Side Layout */
+    /* 💻 DESKTOP HEADER: Logo | Org Info | Logo */
     @media (min-width: 768px) {
-      .header { flex-direction: row; justify-content: space-between; padding: 16px 24px; gap: 20px; }
-      .logo-wrap { width: 75px; height: 75px; }
-      .org-name { font-size: 16px; }
-      .org-line { font-size: 11.5px; }
+      .header { flex-direction: row; justify-content: space-between; padding: 14px 20px; gap: 18px; }
+      .logo-wrap { width: 65px; height: 65px; }
+      .org-name { font-size: 15px; }
+      .org-line { font-size: 10.5px; }
     }
 
-    /* 🔍 SEARCH BAR */
-    .search-wrap { max-width: 900px; margin: 0 auto 16px; padding: 0 14px; }
+    /* 🔍 SEARCH */
+    .search-wrap { max-width: 850px; margin: 0 auto 14px; padding: 0 14px; }
     .search-box { 
-      width: 100%; padding: 14px 18px; border: 2px solid var(--border); 
-      border-radius: var(--radius); font-size: 15px; outline: none; 
+      width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); 
+      border-radius: var(--radius); font-size: 14px; outline: none; 
       background: var(--card); color: var(--text); box-shadow: var(--shadow);
       transition: border 0.2s, box-shadow 0.2s;
     }
-    .search-box:focus { border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+    .search-box:focus { border-color: var(--primary-light); box-shadow: 0 0 0 2px rgba(37,99,235,0.12); }
 
     /* 📑 TABS */
-    .tabs { max-width: 900px; margin: 0 auto 18px; padding: 0 14px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+    .tabs { max-width: 850px; margin: 0 auto 16px; padding: 0 14px; display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
     .tab { 
-      padding: 10px 16px; background: var(--card); border: 1.5px solid var(--border); 
-      border-radius: 24px; cursor: pointer; font-size: 12.5px; font-weight: 600; 
-      white-space: nowrap; transition: all 0.2s; color: var(--muted); min-height: 44px;
+      padding: 9px 14px; background: var(--card); border: 1px solid var(--border); 
+      border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; 
+      white-space: nowrap; transition: all 0.2s; color: var(--muted); min-height: 40px;
       display: flex; align-items: center;
     }
     .tab:hover { background: #f9fafb; }
-    .tab:active { transform: scale(0.96); }
-    .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 12px rgba(30,58,138,0.25); }
+    .tab:active { transform: scale(0.97); }
+    .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 3px 10px rgba(30,58,138,0.2); }
 
     /* 📄 GRID & CARDS */
-    .container { max-width: 1000px; margin: 0 auto; padding: 0 14px; }
-    .doc-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .container { max-width: 950px; margin: 0 auto; padding: 0 14px; }
+    .doc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
     .doc-card { 
-      background: var(--card); border-radius: var(--radius); padding: 18px; 
+      background: var(--card); border-radius: var(--radius); padding: 16px; 
       border: 1px solid var(--border); box-shadow: var(--shadow); 
       transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden;
     }
     .doc-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
     }
-    .doc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+    .doc-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
     .doc-badge { 
-      font-size: 10px; font-weight: 700; color: var(--primary); background: #dbeafe; 
-      padding: 3px 10px; border-radius: 12px; display: inline-block; margin-bottom: 6px;
+      font-size: 9.5px; font-weight: 700; color: var(--primary); background: #eff6ff; 
+      padding: 3px 9px; border-radius: 10px; display: inline-block; margin-bottom: 5px;
       border: 1px solid var(--primary-light);
     }
-    .doc-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.35; margin-bottom: 10px; }
+    .doc-name { font-size: 13.5px; font-weight: 600; color: var(--text); line-height: 1.35; margin-bottom: 8px; }
     .btn-view { 
-      width: 100%; padding: 12px; background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%); 
-      color: #fff; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; 
-      font-size: 13px; min-height: 44px; transition: opacity 0.2s;
+      width: 100%; padding: 11px; background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%); 
+      color: #fff; border: none; border-radius: 9px; cursor: pointer; font-weight: 600; 
+      font-size: 12.5px; min-height: 40px; transition: opacity 0.2s;
     }
-    .btn-view:hover { opacity: 0.9; }
-    .no-results { grid-column: 1 / -1; text-align: center; padding: 30px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
+    .btn-view:hover { opacity: 0.92; }
+    .no-results { grid-column: 1 / -1; text-align: center; padding: 28px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
 
-    .footer { text-align: center; padding: 20px 15px; font-size: 11px; color: var(--muted); margin-top: 24px; border-top: 1px solid var(--border); background: #fff; max-width: 1000px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
+    .footer { text-align: center; padding: 18px 15px; font-size: 10.5px; color: var(--muted); margin-top: 22px; border-top: 1px solid var(--border); background: #fff; max-width: 950px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
     
-    @media (min-width: 640px) { .doc-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 850px) { .doc-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 600px) { .doc-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 820px) { .doc-grid { grid-template-columns: repeat(3, 1fr); } }
   </style>
 </head>
 <body>
   <header class="header">
-    <div class="logo-wrap"><img src="logo-left.png" alt="LME Logo Left"></div>
+    <div class="logo-wrap"><img src="logo-left.png" alt="LME Left"></div>
     <div class="org-center">
       <div class="org-name">LINK MIDDLE EAST GENERAL CONTRACTING CO</div>
       <div class="org-line">P.O. Box: 51070, ABU DHABI - U.A.E.</div>
       <div class="org-line">Tel.: (9712) 658 8504 | FAX: (9712) 658 8505</div>
       <div class="org-line">E-mail: lmedubai@eim.ae</div>
-      <div class="org-line">H.O: P. O. Box:16846 | TEL.: (9714) 881 6750</div>
+      <div class="org-line">H.O: P. O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</div>
     </div>
-    <div class="logo-wrap"><img src="logo-right.png" alt="LME Logo Right"></div>
+    <div class="logo-wrap"><img src="logo-right.png" alt="LME Right"></div>
   </header>
   
   <div style="text-align:center"><div class="portal-badge">📑 HSE DOCUMENTATION PORTAL</div></div>
 
   <div class="search-wrap">
-    <input type="text" id="search" class="search-box" placeholder="🔍 Search documents by name...">
+    <input type="text" id="search" class="search-box" placeholder="🔍 Search documents...">
   </div>
 
   <nav class="tabs" id="tabs">
@@ -164,13 +158,13 @@
   <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal</footer>
 
   <script>
-    // 📄 FULL CLEANED LIST: 60 Documents, Duplicates Removed
+    // 📄 EXACT 61 DOCUMENTS FROM DOCX (Duplicates Removed Per Your Rules)
     const docs = [
       { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy" },
       { name: "ZERO HARM PHILOSOPHY", cat: "policy" },
       { name: "Roles and responsibilities", cat: "policy" },
       { name: "Monthly HSE coordination meeting attendance sheet", cat: "training" },
-      { name: "Plant & Vehicle inspection Checklist", cat: "inspection" },
+      { name: "Plant &Vehicle inspection Checklist", cat: "inspection" },
       { name: "Fire Extinguisher Inspection Register", cat: "inspection" },
       { name: "First Aid Report Form", cat: "incident" },
       { name: "Monthly Power Tools Inspection Log", cat: "inspection" },
