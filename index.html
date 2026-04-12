@@ -193,7 +193,7 @@
       { name: "HEAT ILLNESS TBT", cat: "training", pdf: null },
       { name: "HSE TRAINING MATRIX", cat: "training", pdf: null },
       { name: "Under Ground & Over Head Services", cat: "training", pdf: null },
-      // ✅ UPDATED: LME HSE INDUCTION now has 2 PDF slots
+      // ✅ UPDATED: Single toggle button reveals 2 files
       { name: "LME HSE INDUCTION", cat: "training", pdf: "lme-hse-induction-slides.pdf", pdf2: "induction-sticker.pdf" },
       { name: "First Aid Report Form", cat: "incident", pdf: null },
       { name: "WARNING LETTER", cat: "incident", pdf: null },
@@ -222,19 +222,37 @@
     const searchInput = document.getElementById('search');
     let activeCat = 'all';
 
+    // ✅ Toggle function for multi-file cards
+    function toggleFiles(btn) {
+      const group = btn.nextElementSibling;
+      if (group.style.display === 'none' || group.style.display === '') {
+        group.style.display = 'block';
+        btn.textContent = '🔼 Hide Documents';
+      } else {
+        group.style.display = 'none';
+        btn.textContent = '📂 View Documents (2)';
+      }
+    }
+
     function renderDocs() {
       const q = searchInput.value.toLowerCase();
       const filtered = docs.filter(d => (activeCat === 'all' || d.cat === activeCat) && d.name.toLowerCase().includes(q));
       
       grid.innerHTML = filtered.length ? filtered.map(d => {
         let buttonsHtml = '';
-        if (d.pdf) {
-          buttonsHtml += `<a href="${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a>`;
-        }
-        if (d.pdf2) {
-          buttonsHtml += `<a href="${d.pdf2}" target="_blank" class="btn-view">📥 Open Sticker</a>`;
-        }
-        if (!d.pdf && !d.pdf2) {
+        
+        // ✅ Check if document has 2 files
+        if (d.pdf && d.pdf2) {
+          buttonsHtml = `
+            <button class="btn-view" onclick="toggleFiles(this)">📂 View Documents (2)</button>
+            <div style="display:none; margin-top:8px;">
+              <a href="${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a>
+              <a href="${d.pdf2}" target="_blank" class="btn-view">📥 Open Sticker</a>
+            </div>
+          `;
+        } else if (d.pdf) {
+          buttonsHtml = `<a href="${d.pdf}" target="_blank" class="btn-view">Open Form</a>`;
+        } else {
           buttonsHtml = `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
         }
 
