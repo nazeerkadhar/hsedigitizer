@@ -113,9 +113,10 @@
     .btn-view { 
       width: 100%; padding: 11px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
       color: #fff; border: none; border-radius: 9px; cursor: pointer; font-weight: 600; 
-      font-size: 12.5px; min-height: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(230,126,34,0.3);
+      font-size: 12.5px; min-height: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(230,126,34,0.3); text-decoration: none; display: block; text-align: center;
     }
     .btn-view:hover { opacity: 0.92; }
+    .btn-view.disabled { background: #4b5563; cursor: not-allowed; box-shadow: none; }
     .no-results { grid-column: 1 / -1; text-align: center; padding: 28px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
     .footer { text-align: center; padding: 18px 15px; font-size: 10.5px; color: var(--footer-text); margin-top: 22px; border-top: 1px solid var(--border); background: var(--card); max-width: 1200px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
     
@@ -151,13 +152,13 @@
   <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal</footer>
 
   <script>
-    // 📄 ONLY "ZERO HARM PHILOSOPHY" HAS A PDF LINKED. OTHERS SHOW PLACEHOLDER ALERT.
+    // 📄 PDF LINKS: Uses GitHub Raw URLs (bypasses Vercel 404 completely)
     const docs = [
       { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy", pdf: null },
-      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: "zero-harm-philosophy.pdf" },
+      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: null },
       { name: "Roles and responsibilities", cat: "policy", pdf: null },
       { name: "Mandatory PPE", cat: "policy", pdf: null },
-      { name: "12 GOLDEN RULES", cat: "policy", pdf: "12-golden-rules.pdf" },
+      { name: "12 GOLDEN RULES", cat: "policy", pdf: "https://raw.githubusercontent.com/nazeerkadhar/hsedigitizer/main/12-golden-rules.pdf" },
       { name: "LME ISO CERTIFICATIONS", cat: "policy", pdf: null },
       { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy", pdf: null },
       { name: "EMERGENCY RESPONSE TEAM", cat: "policy", pdf: null },
@@ -221,14 +222,6 @@
     const searchInput = document.getElementById('search');
     let activeCat = 'all';
 
-    function openDoc(pdfFile, docName) {
-      if (pdfFile) {
-        window.open(pdfFile, '_blank');
-      } else {
-        alert('PDF not yet uploaded for: ' + docName);
-      }
-    }
-
     function renderDocs() {
       const q = searchInput.value.toLowerCase();
       const filtered = docs.filter(d => (activeCat === 'all' || d.cat === activeCat) && d.name.toLowerCase().includes(q));
@@ -236,7 +229,9 @@
         <div class="doc-card">
           <div class="doc-badge">📄 FORM</div>
           <div class="doc-name">${d.name}</div>
-          <button class="btn-view" onclick="openDoc('${d.pdf}', '${d.name.replace(/'/g, "\\'")}')">Open Form</button>
+          <a href="${d.pdf || '#'}" target="_blank" class="btn-view ${!d.pdf ? 'disabled' : ''}" onclick="return ${!!d.pdf ? 'true' : 'false'}">
+            ${d.pdf ? '📥 Open / Download PDF' : '⏳ PDF Pending'}
+          </a>
         </div>
       `).join('') : '<div class="no-results">🔍 No documents found</div>';
     }
