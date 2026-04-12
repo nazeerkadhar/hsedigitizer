@@ -251,7 +251,7 @@
       { name: "Monthly HSE coordination meeting attendance sheet", cat: "training", pdf: null },
       { name: "HSE INDUCTION ATTENDANCE SHEET", cat: "training", pdf: null },
       { name: "MSRA communication Record", cat: "training", pdf: null },
-      { name: "WEEKLY HSE TRAINING", cat: "training", pdf: null },
+      { name: "WEEKLY HSE TRAINING", cat: "training", type: "wht_form" },
       { name: "Tool Box Talk", cat: "training", type: "form" },
       { name: "STARRT Briefing", cat: "training", pdf: null },
       { name: "Confined Space Entry Log sheet", cat: "training", pdf: null },
@@ -298,6 +298,142 @@
     function openSavedModal() { document.getElementById('saved-modal').style.display = 'block'; renderSaved(); }
     function closeSavedModal() { document.getElementById('saved-modal').style.display = 'none'; }
     function clearTBTInput() { document.querySelectorAll('.form-input-view input, .form-input-view textarea').forEach(el => el.value = ''); }
+    
+    // ✅ Generate 20 attendee inputs for Weekly HSE Training
+const whtAttContainer = document.getElementById('wht-att-inputs');
+for(let i=1; i<=20; i++) {
+  whtAttContainer.innerHTML += `
+    <div class="att-input" style="display:grid; grid-template-columns: 28px 1fr 1fr 1fr 1fr;">
+      <span>${i}</span>
+      <input type="text" id="wht-n${i}" placeholder="Name">
+      <input type="text" id="wht-c${i}" placeholder="Company">
+      <input type="text" id="wht-t${i}" placeholder="Title">
+      <input type="text" id="wht-id${i}" placeholder="ID">
+    </div>`;
+}
+
+function openWHTModal() { document.getElementById('wht-modal').style.display = 'block'; }
+function closeWHTModal() { document.getElementById('wht-modal').style.display = 'none'; }
+function clearWHTInput() { document.querySelectorAll('#wht-modal input').forEach(el => el.value = ''); }
+
+function saveWHTOnly() {
+  const atts = [];
+  for(let i=1; i<=20; i++) atts.push({
+    n: document.getElementById(`wht-n${i}`).value,
+    c: document.getElementById(`wht-c${i}`).value,
+    t: document.getElementById(`wht-t${i}`).value,
+    id: document.getElementById(`wht-id${i}`).value
+  });
+  
+  const data = {
+    id: Date.now().toString(),
+    docName: "WEEKLY HSE TRAINING",
+    projName: document.getElementById('wht-projName').value,
+    projNo: document.getElementById('wht-projNo').value,
+    date: document.getElementById('wht-date').value,
+    instructor: document.getElementById('wht-instructor').value,
+    type: document.getElementById('wht-type').value,
+    duration: document.getElementById('wht-duration').value,
+    location: document.getElementById('wht-location').value,
+    time: document.getElementById('wht-time').value,
+    attendees: atts,
+    savedAt: new Date().toLocaleString()
+  };
+  
+  if(!data.date || !data.projName) { alert('⚠️ Please fill Date & Project Name to save.'); return; }
+  let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+  reports.unshift(data);
+  localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
+  alert('✅ Weekly HSE Training report saved! Access it via 📂 Saved Reports tab.');
+}
+  
+    function generateWHTPDF() {
+  const atts = [];
+  for(let i=1; i<=20; i++) atts.push({
+    n: document.getElementById(`wht-n${i}`).value,
+    c: document.getElementById(`wht-c${i}`).value,
+    t: document.getElementById(`wht-t${i}`).value,
+    id: document.getElementById(`wht-id${i}`).value
+  });
+
+  const data = {
+    id: Date.now().toString(),
+    docName: "WEEKLY HSE TRAINING",
+    projName: document.getElementById('wht-projName').value,
+    projNo: document.getElementById('wht-projNo').value,
+    date: document.getElementById('wht-date').value,
+    instructor: document.getElementById('wht-instructor').value,
+    type: document.getElementById('wht-type').value,
+    duration: document.getElementById('wht-duration').value,
+    location: document.getElementById('wht-location').value,
+    time: document.getElementById('wht-time').value,
+    attendees: atts,
+    savedAt: new Date().toLocaleString()
+  };
+
+  if(!data.date || !data.projName) { alert('⚠️ Please fill Date & Project Name.'); return; }
+
+  // Save to localStorage first
+  let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+  reports.unshift(data);
+  localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
+
+  // Build Exact A4 Sheet HTML
+  const sheetHTML = `
+    <div class="sheet-header">
+      <img src="logo-left.png" class="sheet-logo" alt="L">
+      <div class="sheet-org">
+        <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
+        <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+        <p>Tel.: (9712) 658 8504, FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+        <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+      </div>
+      <img src="logo-right.png" class="sheet-logo" alt="R">
+    </div>
+    <div class="sheet-title">WEEKLY HSE TRAINING RECORD</div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 5px 20px; font-size: 11px; margin-bottom: 8px; padding: 0 5px;">
+      <div><strong>Project Name:</strong> ${data.projName}</div>
+      <div><strong>Project No.:</strong> ${data.projNo}</div>
+      <div><strong>Instructor Name:</strong> ${data.instructor}</div>
+      <div><strong>Date:</strong> ${data.date}</div>
+      <div><strong>Type of Training:</strong> ${data.type}</div>
+      <div><strong>Duration:</strong> ${data.duration}</div>
+      <div><strong>Location of Training:</strong> ${data.location}</div>
+      <div><strong>Time:</strong> ${data.time}</div>
+    </div>
+    <table class="sheet-table">
+      <thead><tr><th style="width:8%">NO</th><th>NAME</th><th>COMPANY</th><th>TITLE</th><th>ID</th></tr></thead>
+      <tbody>
+        ${Array.from({length:20}, (_,i) => `
+          <tr>
+            <td>${i+1}.</td><td>${data.attendees[i].n||''}</td><td>${data.attendees[i].c||''}</td><td>${data.attendees[i].t||''}</td><td>${data.attendees[i].id||''}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    <div class="sheet-disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+    <div class="sheet-footer">WEEKLY HSE TRAINING &nbsp;|&nbsp; DC-HSE-LME-017</div>
+  `;
+
+  // Generate & Download
+  const tempDiv = document.createElement('div');
+  tempDiv.className = 'a4-sheet';
+  tempDiv.innerHTML = sheetHTML;
+  tempDiv.style.display = 'block';
+  document.body.appendChild(tempDiv);
+
+  html2pdf().set({
+    margin: 8, filename: `WHT_${data.projName.replace(/\s+/g,'_')}_${data.date}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(tempDiv).save().then(() => {
+    document.body.removeChild(tempDiv);
+    closeWHTModal();
+    clearWHTInput();
+    alert('✅ Report saved & A4 PDF downloaded successfully!');
+  });
+}  
     function saveOnly() {
   const data = collectInputData();
   if(!data.date || !data.project) { alert('⚠️ Please fill Date & Project to save.'); return; }
@@ -457,9 +593,10 @@ const filtered = reports.filter(r =>
       grid.innerHTML = filtered.length ? filtered.map(d => {
         let action = '';
         if(d.type === 'form') action = `<button class="btn-view" onclick="openTBTModal()">📝 Fill Form</button>`;
-        else if(d.pdf && d.pdf2) action = `<a href="${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a><a href="${d.pdf2}" target="_blank" class="btn-view">📥 Open Sticker</a>`;
-        else if(d.pdf) action = `<a href="${d.pdf}" target="_blank" class="btn-view">Open Form</a>`;
-        else action = `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
+else if(d.type === 'wht_form') action = `<button class="btn-view" onclick="openWHTModal()">📝 Fill Form</button>`;
+else if(d.pdf && d.pdf2) action = `<a href="${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a><a href="${d.pdf2}" target="_blank" class="btn-view">📥 Open Sticker</a>`;
+else if(d.pdf) action = `<a href="${d.pdf}" target="_blank" class="btn-view">Open Form</a>`;
+else action = `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
         return `<div class="doc-card"><div class="doc-badge">📄 FORM</div><div class="doc-name">${d.name}</div>${action}</div>`;
       }).join('') : '<div class="no-results">🔍 No documents found</div>';
     }
