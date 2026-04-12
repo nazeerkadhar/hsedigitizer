@@ -50,7 +50,6 @@
     .doc-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
     .btn-view { width: 100%; padding: 11px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: 12.5px; min-height: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(230,126,34,0.3); text-decoration: none; display: inline-flex; justify-content: center; align-items: center; text-align: center; box-sizing: border-box; }
     .btn-view:hover { opacity: 0.92; }
-    .btn-reports { background: var(--purple); box-shadow: 0 4px 12px rgba(155,89,182,0.3); }
     .no-results { grid-column: 1 / -1; text-align: center; padding: 28px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
     .footer { text-align: center; padding: 18px 15px; font-size: 10.5px; color: var(--footer-text); margin-top: 22px; border-top: 1px solid var(--border); background: var(--card); max-width: 1200px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
     
@@ -58,58 +57,59 @@
     @media (min-width: 768px) { .doc-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (min-width: 1024px) { .doc-grid { grid-template-columns: repeat(4, 1fr); } }
 
-    /* 📄 MODAL & FORM STYLES */
+    /* 📄 MODAL STYLES */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; overflow-y: auto; padding: 20px 10px; }
     .modal-content { background: #fff; color: #000; max-width: 850px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); position: relative; }
     .close-modal { position: absolute; top: 10px; right: 12px; font-size: 26px; font-weight: bold; cursor: pointer; color: #555; background: none; border: none; line-height: 1; }
     
-    .form-header { border-bottom: 2px solid #222; padding-bottom: 10px; margin-bottom: 12px; }
-    .header-logos { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .header-logos img { width: 50px; height: 50px; object-fit: contain; }
-    .org-info { text-align: center; flex: 1; padding: 0 10px; }
-    .org-info h2 { font-size: 15px; margin: 0 0 3px; text-transform: uppercase; line-height: 1.2; }
-    .org-info p { font-size: 9.5px; margin: 2px 0; color: #333; }
-    .doc-title { text-align: center; font-size: 18px; font-weight: 800; margin: 8px 0 5px; text-transform: uppercase; color: #000; }
+    /* 📝 INPUT FORM STYLES */
+    .form-input-view { padding: 15px 0; }
+    .input-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+    .input-group { flex: 1; min-width: 140px; }
+    .input-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 4px; color: #333; }
+    .input-group input, .input-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+    .attendee-inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; max-height: 200px; overflow-y: auto; padding: 5px; border: 1px solid #eee; border-radius: 6px; background: #fafafa; }
+    .att-input { display: flex; gap: 5px; align-items: center; }
+    .att-input span { font-size: 11px; color: #666; min-width: 18px; }
+    .att-input input { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
+    .form-actions { display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end; }
+    .btn-gen { background: #27ae60; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .btn-gen:hover { background: #219150; }
+    .btn-clear { background: #7f8c8d; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; }
 
-    .form-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
-    .form-group { flex: 1; min-width: 130px; }
-    .form-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 3px; color: #222; }
-    .form-group input, .form-group textarea { width: 100%; padding: 6px 8px; border: 1px solid #999; border-radius: 4px; font-size: 13px; background: #fff; }
-    .form-group textarea { resize: vertical; }
+    /* 📄 A4 OUTPUT STYLES (Hidden until generated) */
+    .a4-sheet { display: none; background: #fff; padding: 15px; font-family: 'Times New Roman', serif; color: #000; }
+    .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 8px; }
+    .sheet-logo { width: 45px; height: 45px; object-fit: contain; }
+    .sheet-org { text-align: center; flex: 1; padding: 0 10px; }
+    .sheet-org h2 { font-size: 14px; margin: 0 0 2px; text-transform: uppercase; }
+    .sheet-org p { font-size: 9px; margin: 1px 0; }
+    .sheet-title { text-align: center; font-size: 16px; font-weight: bold; margin: 8px 0; text-transform: uppercase; border: 1px solid #000; padding: 5px; }
+    .sheet-meta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; font-size: 11px; }
+    .sheet-meta div { border-bottom: 1px dotted #333; padding-bottom: 2px; }
+    .sheet-topics { margin: 8px 0; padding: 8px; border: 1px solid #333; min-height: 40px; font-size: 12px; }
+    .sheet-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10px; }
+    .sheet-table th, .sheet-table td { border: 1px solid #000; padding: 4px; text-align: center; }
+    .sheet-table th { background: #eee; }
+    .sheet-sigs { display: flex; gap: 30px; margin: 15px 0 10px; font-size: 11px; }
+    .sheet-sig { flex: 1; border-bottom: 1px solid #000; padding-bottom: 25px; }
+    .sheet-disclaimer { font-size: 9px; font-style: italic; text-align: center; margin-top: 10px; padding: 5px; background: #f5f5f5; border: 1px dashed #999; }
+    .sheet-footer { text-align: center; font-size: 9px; margin-top: 5px; color: #333; }
 
-    .tbt-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 11.5px; }
-    .tbt-table th, .tbt-table td { border: 1px solid #333; padding: 4px; text-align: center; height: 22px; }
-    .tbt-table th { background: #f0f0f0; font-weight: 700; }
-    .tbt-table input { width: 100%; height: 100%; border: none; background: transparent; font-size: 11.5px; text-align: center; }
-    .tbt-table input:focus { outline: 1px solid var(--primary); background: #fffbe6; }
-
-    .signatures { display: flex; gap: 20px; margin: 10px 0; }
-    .sig-box { flex: 1; }
-    .sig-box label { font-size: 11px; font-weight: 700; display: block; margin-bottom: 6px; }
-    .sig-box input { width: 100%; border: none; border-bottom: 1px solid #000; background: transparent; padding: 5px 0; font-size: 13px; }
-
-    .disclaimer { font-size: 10px; font-style: italic; color: #444; text-align: center; margin: 12px 0 8px; padding: 6px; background: #f9f9f9; border-radius: 4px; border: 1px dashed #aaa; }
-    .doc-footer { text-align: center; margin-top: 5px; font-size: 10px; color: #666; }
-
-    .pdf-actions { display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end; }
-    .btn-pdf { background: #27ae60; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-    .btn-pdf:hover { background: #219150; }
-    .btn-clear { background: #7f8c8d; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-    .btn-clear:hover { background: #95a5a6; }
-
-    /* 📊 SAVED REPORTS STYLES */
-    .filter-row { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-    .filter-row input { flex: 1; min-width: 120px; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
-    .saved-list { max-height: 60vh; overflow-y: auto; margin-top: 10px; }
-    .saved-item { background: #f8f9fa; border: 1px solid #ddd; padding: 10px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .saved-item .info { font-size: 12px; color: #333; }
-    .saved-item button { background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+    /* 📊 SAVED REPORTS FILTER STYLES */
+    .filter-view { padding: 10px 0; }
+    .filter-bar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    .filter-bar input { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+    .report-list { max-height: 60vh; overflow-y: auto; }
+    .report-item { background: #f8f9fa; border: 1px solid #ddd; padding: 12px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .report-info { font-size: 12px; color: #333; }
+    .report-btn { background: var(--primary); color: #fff; border: none; padding: 7px 14px; border-radius: 5px; cursor: pointer; font-size: 11px; }
+    .report-btn:hover { opacity: 0.9; }
 
     @media print {
       body * { visibility: hidden; }
-      .modal-content, .modal-content * { visibility: visible; }
-      .modal-content { position: absolute; left: 0; top: 0; width: 100%; padding: 10px; box-shadow: none; }
-      .pdf-actions, .close-modal { display: none !important; }
+      .a4-sheet, .a4-sheet * { visibility: visible; }
+      .a4-sheet { position: absolute; left: 0; top: 0; width: 100%; }
     }
   </style>
 </head>
@@ -135,87 +135,69 @@
     <button class="tab" data-cat="incident">🚨 Incidents</button>
     <button class="tab" data-cat="report">📊 Reports</button>
     <button class="tab" data-cat="procedure">📁 Plans</button>
-    <button class="tab" data-cat="saved" onclick="openSavedReports()">📂 Saved Reports</button>
+    <button class="tab" data-cat="saved" onclick="openSavedModal()">📂 Saved Reports</button>
   </nav>
   <main class="container"><div id="doc-grid" class="doc-grid"></div></main>
   <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal</footer>
 
-  <!-- 📄 TOOL BOX TALK FORM MODAL -->
+  <!-- 📝 INPUT FORM MODAL -->
   <div id="tbt-modal" class="modal-overlay">
-    <div class="modal-content" id="tbt-form">
-      <button class="close-modal" onclick="closeTBT()">&times;</button>
-      
-      <div class="form-header">
-        <div class="header-logos">
-          <img src="logo-left.png" alt="Logo Left">
-          <div class="org-info">
-            <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
-            <p>P.O. Box: 51070, ABU DHABI - U.A.E. | Tel.: (9712) 658 8504 | FAX: (9712) 658 8505</p>
-            <p>E-mail: lmedubai@eim.ae | H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
-          </div>
-          <img src="logo-right.png" alt="Logo Right">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeTBTModal()">&times;</button>
+      <h2 style="margin-bottom:10px; color:#222;">📝 Fill Tool Box Talk Form</h2>
+      <div class="form-input-view">
+        <div class="input-row">
+          <div class="input-group"><label>Date</label><input type="date" id="in-date"></div>
+          <div class="input-group"><label>Project</label><input type="text" id="in-project" placeholder="Project Name"></div>
+          <div class="input-group"><label>Location</label><input type="text" id="in-location" placeholder="Site/Location"></div>
         </div>
-        <div class="doc-title">TOOL BOX TALK</div>
-      </div>
-      
-      <div class="form-row">
-        <div class="form-group"><label>Date:</label><input type="date" id="tbt-date"></div>
-        <div class="form-group"><label>Project:</label><input type="text" id="tbt-project" placeholder="Project Name"></div>
-        <div class="form-group"><label>Location:</label><input type="text" id="tbt-location" placeholder="Site/Location"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group" style="flex: 1 1 100%;"><label>Topics:</label><textarea id="tbt-topics" rows="2" placeholder="Safety topics discussed..."></textarea></div>
-      </div>
-
-      <table class="tbt-table">
-        <thead>
-          <tr><th>SL NO</th><th>NAME</th><th>TITLE</th><th>SL NO</th><th>NAME</th><th>TITLE</th></tr>
-        </thead>
-        <tbody id="tbt-attendee-rows"></tbody>
-      </table>
-
-      <div class="signatures">
-        <div class="sig-box"><label>Site Supervisor / Engineer Name:</label><input type="text" id="tbt-super"></div>
-        <div class="sig-box"><label>HSE Officer Name:</label><input type="text" id="tbt-hse"></div>
-      </div>
-
-      <div class="disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
-      <div class="doc-footer">Document Ref: DC-HSE-LME-018</div>
-
-      <div class="pdf-actions">
-        <button class="btn-clear" onclick="clearForm()">🔄 Clear</button>
-        <button class="btn-pdf" onclick="submitAndDownload()">💾 Submit & Download PDF</button>
+        <div class="input-row">
+          <div class="input-group" style="flex:1"><label>Topics Discussed</label><textarea id="in-topics" rows="3" placeholder="List safety topics..."></textarea></div>
+        </div>
+        <div style="margin:10px 0;"><label style="font-size:11px; font-weight:700; color:#333;">Attendees (36 Workers)</label></div>
+        <div class="attendee-inputs" id="att-inputs"></div>
+        <div class="input-row">
+          <div class="input-group"><label>Site Supervisor / Engineer Name</label><input type="text" id="in-super"></div>
+          <div class="input-group"><label>HSE Officer Name</label><input type="text" id="in-hse"></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-clear" onclick="clearTBTInput()">🔄 Clear</button>
+          <button class="btn-gen" onclick="generateAndDownload()">💾 Generate & Download A4 PDF</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 📊 SAVED REPORTS MODAL -->
+  <!-- 📊 SAVED REPORTS FILTER MODAL -->
   <div id="saved-modal" class="modal-overlay">
     <div class="modal-content">
-      <button class="close-modal" onclick="closeSavedReports()">&times;</button>
-      <h3 style="margin-bottom:10px; color:#222;">📂 Saved Tool Box Talk Reports</h3>
-      <div class="filter-row">
-        <input type="date" id="filter-date" placeholder="Filter by Date" onchange="renderSaved()">
-        <input type="text" id="filter-project" placeholder="Filter by Project" oninput="renderSaved()">
-        <input type="text" id="filter-location" placeholder="Filter by Location" oninput="renderSaved()">
+      <button class="close-modal" onclick="closeSavedModal()">&times;</button>
+      <h3 style="margin-bottom:10px; color:#222;">📂 Saved Reports (Audit Ready)</h3>
+      <div class="filter-view">
+        <div class="filter-bar">
+          <input type="date" id="f-date" onchange="renderSaved()">
+          <input type="text" id="f-project" placeholder="Filter by Project" oninput="renderSaved()">
+          <input type="text" id="f-location" placeholder="Filter by Location" oninput="renderSaved()">
+        </div>
+        <div id="saved-list" class="report-list"></div>
       </div>
-      <div id="saved-list" class="saved-list"></div>
     </div>
   </div>
 
   <script>
+    // ✅ RESTORED YOUR EXACT DOCUMENT LIST + PDF LINKS
     const docs = [
       { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy", pdf: null },
-      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: null },
-      { name: "Roles and responsibilities", cat: "policy", pdf: null },
-      { name: "Mandatory PPE", cat: "policy", pdf: null },
-      { name: "12 GOLDEN RULES", cat: "policy", pdf: null },
+      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: "zero-harm-philosophy.pdf" },
+      { name: "Roles and responsibilities", cat: "policy", pdf: "DC-HSE-LME-03-Roles-and-responsblities.pdf" },
+      { name: "Mandatory PPE", cat: "policy", pdf: "DC-HSE-LME-028-Mandatory-PPE.pdf" },
+      { name: "12 GOLDEN RULES", cat: "policy", pdf: "12%20GOLDEN%20RULES.pdf" },
       { name: "LME ISO CERTIFICATIONS", cat: "policy", pdf: null },
-      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy", pdf: null },
-      { name: "EMERGENCY RESPONSE TEAM", cat: "policy", pdf: null },
+      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy", pdf: "DC-HSE-LME-029.EMERGENCY RESPONSE PROCEDURE.pdf" },
+      { name: "EMERGENCY RESPONSE TEAM", cat: "policy", pdf:  "DC-HSE-LME-030-EMERGENCY-RESPONSE-TEAM.pdf" },
       { name: "Emergency Evacuation Drill Report Form", cat: "policy", pdf: null },
-      { name: "Reporting Procedures", cat: "policy", pdf: null },
-      { name: "EVALUATION OF LEGAL COMPLIANCE LMEGCC", cat: "policy", pdf: null },
+       { name: "Reporting Procedures", cat: "policy", pdf: "DC-HSE-LME-61-Reporting-Procedures.pdf" },
+      { name: "EVALUATION OF LEGAL COMPLIANCE LMEGCC", cat: "policy", pdf: "DC-HSE-LME-63-EVALUATION-OF-LEGAL-COMPLIANCE.pdf" },
       { name: "Plant &Vehicle inspection Checklist", cat: "inspection", pdf: null },
       { name: "Fire Extinguisher Inspection Register", cat: "inspection", pdf: null },
       { name: "Monthly Power Tools Inspection Log", cat: "inspection", pdf: null },
@@ -244,7 +226,7 @@
       { name: "HEAT ILLNESS TBT", cat: "training", pdf: null },
       { name: "HSE TRAINING MATRIX", cat: "training", pdf: null },
       { name: "Under Ground & Over Head Services", cat: "training", pdf: null },
-      { name: "LME HSE INDUCTION", cat: "training", pdf: null, pdf2: null },
+      { name: "LME HSE INDUCTION", cat: "training", pdf: "DC-HSE-LME-053-LME-HSE-INDUCTION-SLIDES.pdf", pdf2: "DC-HSE-LME-62-induction-sticker.pdf" },
       { name: "First Aid Report Form", cat: "incident", pdf: null },
       { name: "WARNING LETTER", cat: "incident", pdf: null },
       { name: "HSE Observation Summary", cat: "incident", pdf: null },
@@ -272,152 +254,163 @@
     const searchInput = document.getElementById('search');
     let activeCat = 'all';
 
-    // Generate 18 rows with 2 columns (1-18 & 19-36)
-    const tbody = document.getElementById('tbt-attendee-rows');
-    for(let i=1; i<=18; i++){
-      tbody.innerHTML += `
-        <tr>
-          <td>${i}</td><td><input type="text" data-col="n${i}"></td><td><input type="text" data-col="t${i}"></td>
-          <td>${i+18}</td><td><input type="text" data-col="n${i+18}"></td><td><input type="text" data-col="t${i+18}"></td>
-        </tr>
-      `;
+    // Generate clean input fields for 36 attendees (Name + Title only)
+    const attContainer = document.getElementById('att-inputs');
+    for(let i=1; i<=36; i++) {
+      attContainer.innerHTML += `<div class="att-input"><span>${i}</span><input type="text" id="att-n${i}" placeholder="Name"><input type="text" id="att-t${i}" placeholder="Title"></div>`;
     }
 
-    function openTBT() { document.getElementById('tbt-modal').style.display = 'block'; }
-    function closeTBT() { document.getElementById('tbt-modal').style.display = 'none'; }
-    function openSavedReports() { 
-      document.getElementById('saved-modal').style.display = 'block'; 
-      renderSaved(); 
-    }
-    function closeSavedReports() { document.getElementById('saved-modal').style.display = 'none'; }
+    function openTBTModal() { document.getElementById('tbt-modal').style.display = 'block'; }
+    function closeTBTModal() { document.getElementById('tbt-modal').style.display = 'none'; }
+    function openSavedModal() { document.getElementById('saved-modal').style.display = 'block'; renderSaved(); }
+    function closeSavedModal() { document.getElementById('saved-modal').style.display = 'none'; }
+    function clearTBTInput() { document.querySelectorAll('.form-input-view input, .form-input-view textarea').forEach(el => el.value = ''); }
     window.onclick = function(e) { 
-      if(e.target === document.getElementById('tbt-modal')) closeTBT();
-      if(e.target === document.getElementById('saved-modal')) closeSavedReports();
+      if(e.target === document.getElementById('tbt-modal')) closeTBTModal();
+      if(e.target === document.getElementById('saved-modal')) closeSavedModal();
     }
 
-    function getFormData() {
-      const attendees = {};
-      document.querySelectorAll('#tbt-attendee-rows input').forEach(inp => {
-        attendees[inp.dataset.col] = inp.value;
-      });
+    function collectInputData() {
+      let atts = [];
+      for(let i=1; i<=36; i++) atts.push({ n: document.getElementById(`att-n${i}`).value, t: document.getElementById(`att-t${i}`).value });
       return {
         id: Date.now().toString(),
-        date: document.getElementById('tbt-date').value,
-        project: document.getElementById('tbt-project').value,
-        location: document.getElementById('tbt-location').value,
-        topics: document.getElementById('tbt-topics').value,
-        supervisor: document.getElementById('tbt-super').value,
-        hse: document.getElementById('tbt-hse').value,
-        attendees,
-        timestamp: new Date().toLocaleString()
+        date: document.getElementById('in-date').value,
+        project: document.getElementById('in-project').value,
+        location: document.getElementById('in-location').value,
+        topics: document.getElementById('in-topics').value,
+        superName: document.getElementById('in-super').value,
+        hseName: document.getElementById('in-hse').value,
+        attendees: atts,
+        savedAt: new Date().toLocaleString()
       };
     }
 
-    function fillForm(data) {
-      document.getElementById('tbt-date').value = data.date;
-      document.getElementById('tbt-project').value = data.project;
-      document.getElementById('tbt-location').value = data.location;
-      document.getElementById('tbt-topics').value = data.topics;
-      document.getElementById('tbt-super').value = data.supervisor;
-      document.getElementById('tbt-hse').value = data.hse;
-      if(data.attendees){
-        Object.keys(data.attendees).forEach(k => {
-          const el = document.querySelector(`[data-col="${k}"]`);
-          if(el) el.value = data.attendees[k];
-        });
-      }
-    }
+    function generateAndDownload() {
+      const data = collectInputData();
+      if(!data.date || !data.project) { alert('⚠️ Please fill Date & Project.'); return; }
 
-    function clearForm() {
-      document.querySelectorAll('#tbt-form input, #tbt-form textarea').forEach(el => el.value = '');
-    }
+      // Build A4 Sheet HTML
+      const sheetHTML = `
+        <div class="sheet-header">
+          <img src="logo-left.png" class="sheet-logo" alt="L">
+          <div class="sheet-org">
+            <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
+            <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+            <p>Tel.: (9712) 658 8504 | FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+            <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+          </div>
+          <img src="logo-right.png" class="sheet-logo" alt="R">
+        </div>
+        <div class="sheet-title">TOOL BOX TALK</div>
+        <div class="sheet-meta">
+          <div><strong>Date:</strong> ${data.date || 'N/A'}</div>
+          <div><strong>Project:</strong> ${data.project || 'N/A'}</div>
+          <div><strong>Location:</strong> ${data.location || 'N/A'}</div>
+        </div>
+        <div style="margin:5px 0; font-size:11px;"><strong>Topics:</strong></div>
+        <div class="sheet-topics">${data.topics.replace(/\n/g, '<br>') || 'N/A'}</div>
+        <table class="sheet-table">
+          <thead><tr><th>SL NO</th><th>NAME</th><th>TITLE</th><th>SL NO</th><th>NAME</th><th>TITLE</th></tr></thead>
+          <tbody>
+            ${Array.from({length:18}, (_,i) => `
+              <tr>
+                <td>${i+1}</td><td>${data.attendees[i].n || ''}</td><td>${data.attendees[i].t || ''}</td>
+                <td>${i+19}</td><td>${data.attendees[i+18].n || ''}</td><td>${data.attendees[i+18].t || ''}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        <div class="sheet-sigs">
+          <div class="sheet-sig"><strong>Site Supervisor / Engineer:</strong><br>${data.superName || '_________________'}</div>
+          <div class="sheet-sig"><strong>HSE Officer:</strong><br>${data.hseName || '_________________'}</div>
+        </div>
+        <div class="sheet-disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+        <div class="sheet-footer">Document Ref: DC-HSE-LME-018</div>
+      `;
 
-    function submitAndDownload() {
-      const data = getFormData();
-      if(!data.date || !data.project) { alert('⚠️ Please fill at least Date and Project.'); return; }
-      
-      // Save to localStorage
+      // Save to LocalStorage (Audit Ready)
       let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
       reports.unshift(data);
       localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
-      
-      generatePDF(data);
-      closeTBT();
-      clearForm();
-      alert('✅ Report saved & downloaded successfully!');
+
+      // Render hidden A4 sheet & download
+      const tempDiv = document.createElement('div');
+      tempDiv.className = 'a4-sheet';
+      tempDiv.innerHTML = sheetHTML;
+      tempDiv.style.display = 'block';
+      document.body.appendChild(tempDiv);
+
+      html2pdf().set({
+        margin: 10, filename: `TBT_${data.project.replace(/\s+/g,'_')}_${data.date}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(tempDiv).save().then(() => {
+        document.body.removeChild(tempDiv);
+        closeTBTModal();
+        clearTBTInput();
+        alert('✅ Report saved & A4 PDF downloaded successfully!');
+      });
     }
 
     function renderSaved() {
-      const dateF = document.getElementById('filter-date').value;
-      const projF = document.getElementById('filter-project').value.toLowerCase();
-      const locF = document.getElementById('filter-location').value.toLowerCase();
+      const d = document.getElementById('f-date').value;
+      const p = document.getElementById('f-project').value.toLowerCase();
+      const l = document.getElementById('f-location').value.toLowerCase();
       const reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
-      
-      const filtered = reports.filter(r => {
-        return (!dateF || r.date === dateF) &&
-               (!projF || (r.project||'').toLowerCase().includes(projF)) &&
-               (!locF || (r.location||'').toLowerCase().includes(locF));
-      });
-
+      const filtered = reports.filter(r => 
+        (!d || r.date === d) && (!p || (r.project||'').toLowerCase().includes(p)) && (!l || (r.location||'').toLowerCase().includes(l))
+      );
       const list = document.getElementById('saved-list');
-      if(filtered.length === 0) { list.innerHTML = '<p style="text-align:center;color:#666;padding:20px;">No reports found.</p>'; return; }
-      
+      if(!filtered.length) { list.innerHTML = '<p style="text-align:center;color:#666;padding:20px;">No matching reports.</p>'; return; }
       list.innerHTML = filtered.map(r => `
-        <div class="saved-item">
-          <div class="info"><strong>${r.date || 'N/A'}</strong> | ${r.project || 'No Project'}<br><small>${r.location || ''} | Saved: ${r.timestamp}</small></div>
-          <button onclick="viewAndDownload('${r.id}')">📥 Download PDF</button>
+        <div class="report-item">
+          <div class="report-info"><strong>${r.date || 'N/A'}</strong> | ${r.project || 'N/A'}<br><small>${r.location || ''} | Saved: ${r.savedAt}</small></div>
+          <button class="report-btn" onclick="reDownload('${r.id}')">📥 Download A4 PDF</button>
         </div>
       `).join('');
     }
 
-    function viewAndDownload(id) {
+    function reDownload(id) {
       const reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
       const data = reports.find(r => r.id === id);
       if(data) {
-        fillForm(data);
-        document.getElementById('tbt-modal').style.display = 'block';
-        setTimeout(() => generatePDF(data), 300);
+        // Rebuild A4 HTML from saved data
+        const sheetHTML = `
+          <div class="sheet-header">
+            <img src="logo-left.png" class="sheet-logo" alt="L">
+            <div class="sheet-org">
+              <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
+              <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+              <p>Tel.: (9712) 658 8504 | FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+              <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+            </div>
+            <img src="logo-right.png" class="sheet-logo" alt="R">
+          </div>
+          <div class="sheet-title">TOOL BOX TALK</div>
+          <div class="sheet-meta"><div><strong>Date:</strong> ${data.date}</div><div><strong>Project:</strong> ${data.project}</div><div><strong>Location:</strong> ${data.location}</div></div>
+          <div style="margin:5px 0; font-size:11px;"><strong>Topics:</strong></div>
+          <div class="sheet-topics">${data.topics.replace(/\n/g,'<br>')}</div>
+          <table class="sheet-table"><thead><tr><th>SL NO</th><th>NAME</th><th>TITLE</th><th>SL NO</th><th>NAME</th><th>TITLE</th></tr></thead><tbody>
+            ${Array.from({length:18},(_,i)=>`<tr><td>${i+1}</td><td>${data.attendees[i].n||''}</td><td>${data.attendees[i].t||''}</td><td>${i+19}</td><td>${data.attendees[i+18].n||''}</td><td>${data.attendees[i+18].t||''}</td></tr>`).join('')}
+          </tbody></table>
+          <div class="sheet-sigs"><div class="sheet-sig"><strong>Site Supervisor / Engineer:</strong><br>${data.superName}</div><div class="sheet-sig"><strong>HSE Officer:</strong><br>${data.hseName}</div></div>
+          <div class="sheet-disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+          <div class="sheet-footer">Document Ref: DC-HSE-LME-018</div>
+        `;
+        const temp = document.createElement('div'); temp.className='a4-sheet'; temp.innerHTML=sheetHTML; temp.style.display='block';
+        document.body.appendChild(temp);
+        html2pdf().set({margin:10, filename:`TBT_${data.project.replace(/\s+/g,'_')}_${data.date}.pdf`, image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(temp).save().then(()=>document.body.removeChild(temp));
       }
-    }
-
-    function generatePDF(data) {
-      const element = document.getElementById('tbt-form');
-      const btns = document.querySelector('.pdf-actions');
-      btns.style.display = 'none';
-
-      // Clone & replace inputs for clean output
-      const clone = element.cloneNode(true);
-      clone.style.position = 'fixed'; clone.style.left = '-9999px'; clone.style.top = '0'; clone.style.maxWidth = '850px';
-      document.body.appendChild(clone);
-
-      clone.querySelectorAll('input, textarea').forEach(inp => {
-        const span = document.createElement('span');
-        span.textContent = inp.value || '';
-        span.style.display = 'block'; span.style.width = '100%'; span.style.minHeight = '18px'; span.style.padding = '2px 0';
-        span.style.fontSize = '11.5px'; span.style.textAlign = inp.tagName==='TEXTAREA'?'left':'center';
-        if(inp.tagName==='TEXTAREA') span.style.whiteSpace = 'pre-wrap';
-        inp.parentNode.replaceChild(span, inp);
-      });
-
-      const opt = {
-        margin: 8, filename: `TBT_${data.project.replace(/\s+/g,'_')}_${data.date}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
-      html2pdf().set(opt).from(clone).save().then(() => {
-        btns.style.display = 'flex'; clone.remove();
-      });
     }
 
     function renderDocs() {
       const q = searchInput.value.toLowerCase();
       const filtered = docs.filter(d => (activeCat === 'all' || d.cat === activeCat) && d.name.toLowerCase().includes(q));
-      
       grid.innerHTML = filtered.length ? filtered.map(d => {
         let action = '';
-        if(d.type === 'form') action = `<button class="btn-view" onclick="openTBT()">📝 Fill Form</button>`;
+        if(d.type === 'form') action = `<button class="btn-view" onclick="openTBTModal()">📝 Fill Form</button>`;
         else if(d.pdf && d.pdf2) action = `<a href="${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a><a href="${d.pdf2}" target="_blank" class="btn-view">📥 Open Sticker</a>`;
         else if(d.pdf) action = `<a href="${d.pdf}" target="_blank" class="btn-view">Open Form</a>`;
         else action = `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
@@ -425,9 +418,15 @@
       }).join('') : '<div class="no-results">🔍 No documents found</div>';
     }
 
-    tabs.forEach(btn => btn.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active')); btn.classList.add('active'); activeCat = btn.dataset.cat; renderDocs();
-    }));
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(btn.dataset.cat === 'saved') return;
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        activeCat = btn.dataset.cat;
+        renderDocs();
+      });
+    });
     searchInput.addEventListener('input', renderDocs);
     renderDocs();
   </script>
