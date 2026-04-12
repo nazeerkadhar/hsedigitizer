@@ -169,6 +169,37 @@
     </div>
   </div>
 
+    <!-- 📝 WEEKLY HSE TRAINING MODAL -->
+  <div id="wht-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeWHTModal()">&times;</button>
+      <h2 style="margin-bottom:10px; color:#222;">📝 Fill Weekly HSE Training Form</h2>
+      <div class="form-input-view">
+        <div class="input-row">
+          <div class="input-group"><label>Project Name</label><input type="text" id="wht-projName" placeholder="Project Name"></div>
+          <div class="input-group"><label>Project No.</label><input type="text" id="wht-projNo" placeholder="Project Number"></div>
+          <div class="input-group"><label>Date</label><input type="date" id="wht-date"></div>
+        </div>
+        <div class="input-row">
+          <div class="input-group"><label>Instructor Name</label><input type="text" id="wht-instructor" placeholder="Instructor"></div>
+          <div class="input-group"><label>Type of Training</label><input type="text" id="wht-type" placeholder="Training Type"></div>
+          <div class="input-group"><label>Duration</label><input type="text" id="wht-duration" placeholder="e.g., 2 Hours"></div>
+        </div>
+        <div class="input-row">
+          <div class="input-group"><label>Location of Training</label><input type="text" id="wht-location" placeholder="Site/Room"></div>
+          <div class="input-group"><label>Time</label><input type="text" id="wht-time" placeholder="e.g., 09:00 AM"></div>
+        </div>
+        <div style="margin:10px 0;"><label style="font-size:11px; font-weight:700; color:#333;">Attendees (20 Workers)</label></div>
+        <div class="attendee-inputs" id="wht-att-inputs"></div>
+        <div class="form-actions">
+          <button class="btn-clear" onclick="saveWHTOnly()" style="background:#3498db;">💾 Save Only</button>
+          <button class="btn-clear" onclick="clearWHTInput()">🔄 Clear</button>
+          <button class="btn-gen" onclick="generateWHTPDF()">📥 Generate & Download A4 PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <!-- 📊 SAVED REPORTS FILTER MODAL -->
   <div id="saved-modal" class="modal-overlay">
     <div class="modal-content">
