@@ -176,10 +176,11 @@
       <h3 style="margin-bottom:10px; color:#222;">📂 Saved Reports (Audit Ready)</h3>
       <div class="filter-view">
         <div class="filter-bar">
-          <input type="date" id="f-date" onchange="renderSaved()">
-          <input type="text" id="f-project" placeholder="Filter by Project" oninput="renderSaved()">
-          <input type="text" id="f-location" placeholder="Filter by Location" oninput="renderSaved()">
-        </div>
+  <input type="date" id="f-date" onchange="renderSaved()">
+  <input type="text" id="f-project" placeholder="Filter by Project" oninput="renderSaved()">
+  <input type="text" id="f-location" placeholder="Filter by Location" oninput="renderSaved()">
+  <input type="text" id="f-docname" placeholder="Filter by Document Name" oninput="renderSaved()">
+</div>
         <div id="saved-list" class="report-list"></div>
       </div>
     </div>
@@ -284,6 +285,7 @@
       for(let i=1; i<=36; i++) atts.push({ n: document.getElementById(`att-n${i}`).value, t: document.getElementById(`att-t${i}`).value });
       return {
         id: Date.now().toString(),
+        docName: "Tool Box Talk",
         date: document.getElementById('in-date').value,
         project: document.getElementById('in-project').value,
         location: document.getElementById('in-location').value,
@@ -368,9 +370,13 @@
       const p = document.getElementById('f-project').value.toLowerCase();
       const l = document.getElementById('f-location').value.toLowerCase();
       const reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
-      const filtered = reports.filter(r => 
-        (!d || r.date === d) && (!p || (r.project||'').toLowerCase().includes(p)) && (!l || (r.location||'').toLowerCase().includes(l))
-      );
+      const dn = document.getElementById('f-docname').value.toLowerCase();
+const filtered = reports.filter(r => 
+  (!d || r.date === d) && 
+  (!p || (r.project||'').toLowerCase().includes(p)) && 
+  (!l || (r.location||'').toLowerCase().includes(l)) &&
+  (!dn || (r.docName||'Tool Box Talk').toLowerCase().includes(dn))
+);
       const list = document.getElementById('saved-list');
       if(!filtered.length) { list.innerHTML = '<p style="text-align:center;color:#666;padding:20px;">No matching reports.</p>'; return; }
       list.innerHTML = filtered.map(r => `
