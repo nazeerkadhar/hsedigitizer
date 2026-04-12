@@ -161,9 +161,10 @@
           <div class="input-group"><label>HSE Officer Name</label><input type="text" id="in-hse"></div>
         </div>
         <div class="form-actions">
-          <button class="btn-clear" onclick="clearTBTInput()">🔄 Clear</button>
-          <button class="btn-gen" onclick="generateAndDownload()">💾 Generate & Download A4 PDF</button>
-        </div>
+  <button class="btn-clear" onclick="saveOnly()" style="background:#3498db;">💾 Save Only</button>
+  <button class="btn-clear" onclick="clearTBTInput()">🔄 Clear</button>
+  <button class="btn-gen" onclick="generateAndDownload()">📥 Generate & Download A4 PDF</button>
+</div>
       </div>
     </div>
   </div>
@@ -265,6 +266,14 @@
     function openSavedModal() { document.getElementById('saved-modal').style.display = 'block'; renderSaved(); }
     function closeSavedModal() { document.getElementById('saved-modal').style.display = 'none'; }
     function clearTBTInput() { document.querySelectorAll('.form-input-view input, .form-input-view textarea').forEach(el => el.value = ''); }
+    function saveOnly() {
+  const data = collectInputData();
+  if(!data.date || !data.project) { alert('⚠️ Please fill Date & Project to save.'); return; }
+  let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+  reports.unshift(data);
+  localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
+  alert('✅ Report saved successfully! You can access it later via 📂 Saved Reports tab.');
+}
     window.onclick = function(e) { 
       if(e.target === document.getElementById('tbt-modal')) closeTBTModal();
       if(e.target === document.getElementById('saved-modal')) closeSavedModal();
