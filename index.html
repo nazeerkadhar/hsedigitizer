@@ -347,7 +347,7 @@ function saveWHTOnly() {
   alert('✅ Weekly HSE Training report saved! Access it via 📂 Saved Reports tab.');
 }
   
-    function generateWHTPDF() {
+function generateWHTPDF() {
   const atts = [];
   for(let i=1; i<=20; i++) atts.push({
     n: document.getElementById(`wht-n${i}`).value,
@@ -373,7 +373,7 @@ function saveWHTOnly() {
 
   if(!data.date || !data.projName) { alert('⚠️ Please fill Date & Project Name.'); return; }
 
-  // Save to localStorage first
+  // Save to localStorage
   let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
   reports.unshift(data);
   localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
@@ -383,7 +383,7 @@ function saveWHTOnly() {
     <div class="sheet-header">
       <img src="logo-left.png" class="sheet-logo" alt="L">
       <div class="sheet-org">
-        <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
+        <h2>LINK MIDDLE EAST GENERAL CONTRACTING CO</h2>
         <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
         <p>Tel.: (9712) 658 8504, FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
         <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
@@ -391,7 +391,7 @@ function saveWHTOnly() {
       <img src="logo-right.png" class="sheet-logo" alt="R">
     </div>
     <div class="sheet-title">WEEKLY HSE TRAINING RECORD</div>
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 5px 20px; font-size: 11px; margin-bottom: 8px; padding: 0 5px;">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px 15px; font-size: 11px; margin: 10px 0; padding: 0 5px;">
       <div><strong>Project Name:</strong> ${data.projName}</div>
       <div><strong>Project No.:</strong> ${data.projNo}</div>
       <div><strong>Instructor Name:</strong> ${data.instructor}</div>
@@ -401,31 +401,38 @@ function saveWHTOnly() {
       <div><strong>Location of Training:</strong> ${data.location}</div>
       <div><strong>Time:</strong> ${data.time}</div>
     </div>
-    <table class="sheet-table">
+    <table class="sheet-table" style="width:100%; margin: 10px 0;">
       <thead><tr><th style="width:8%">NO</th><th>NAME</th><th>COMPANY</th><th>TITLE</th><th>ID</th></tr></thead>
       <tbody>
         ${Array.from({length:20}, (_,i) => `
-          <tr>
+          <tr style="height: 28px;">
             <td>${i+1}.</td><td>${data.attendees[i].n||''}</td><td>${data.attendees[i].c||''}</td><td>${data.attendees[i].t||''}</td><td>${data.attendees[i].id||''}</td>
           </tr>
         `).join('')}
       </tbody>
     </table>
-    <div class="sheet-disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
-    <div class="sheet-footer">WEEKLY HSE TRAINING &nbsp;|&nbsp; DC-HSE-LME-017</div>
+    <div class="sheet-disclaimer" style="margin-top: 20px;">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+    <div class="sheet-footer" style="margin-top: 10px;">WEEKLY HSE TRAINING &nbsp;|&nbsp; DC-HSE-LME-017</div>
   `;
 
-  // Generate & Download
+  // Generate & Download (Forced A4 dimensions)
   const tempDiv = document.createElement('div');
-  tempDiv.className = 'a4-sheet';
   tempDiv.innerHTML = sheetHTML;
-  tempDiv.style.display = 'block';
+  tempDiv.style.position = 'fixed';
+  tempDiv.style.left = '-9999px';
+  tempDiv.style.top = '0';
+  tempDiv.style.width = '210mm';        // Exact A4 width
+  tempDiv.style.padding = '15mm';       // Clean margins
+  tempDiv.style.boxSizing = 'border-box';
+  tempDiv.style.background = '#fff';
+  tempDiv.style.fontFamily = 'Times New Roman, serif';
   document.body.appendChild(tempDiv);
 
   html2pdf().set({
-    margin: 8, filename: `WHT_${data.projName.replace(/\s+/g,'_')}_${data.date}.pdf`,
+    margin: [10, 10, 10, 10],
+    filename: `WHT_${data.projName.replace(/\s+/g,'_')}_${data.date}.pdf`,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   }).from(tempDiv).save().then(() => {
     document.body.removeChild(tempDiv);
@@ -433,7 +440,7 @@ function saveWHTOnly() {
     clearWHTInput();
     alert('✅ Report saved & A4 PDF downloaded successfully!');
   });
-}  
+} 
     function saveOnly() {
   const data = collectInputData();
   if(!data.date || !data.project) { alert('⚠️ Please fill Date & Project to save.'); return; }
@@ -555,37 +562,83 @@ const filtered = reports.filter(r =>
     }
 
     function reDownload(id) {
-      const reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
-      const data = reports.find(r => r.id === id);
-      if(data) {
-        // Rebuild A4 HTML from saved data
-        const sheetHTML = `
-          <div class="sheet-header">
-            <img src="logo-left.png" class="sheet-logo" alt="L">
-            <div class="sheet-org">
-              <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
-              <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
-              <p>Tel.: (9712) 658 8504 | FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
-              <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
-            </div>
-            <img src="logo-right.png" class="sheet-logo" alt="R">
-          </div>
-          <div class="sheet-title">TOOL BOX TALK</div>
-          <div class="sheet-meta"><div><strong>Date:</strong> ${data.date}</div><div><strong>Project:</strong> ${data.project}</div><div><strong>Location:</strong> ${data.location}</div></div>
-          <div style="margin:5px 0; font-size:11px;"><strong>Topics:</strong></div>
-          <div class="sheet-topics">${data.topics.replace(/\n/g,'<br>')}</div>
-          <table class="sheet-table"><thead><tr><th>SL NO</th><th>NAME</th><th>TITLE</th><th>SL NO</th><th>NAME</th><th>TITLE</th></tr></thead><tbody>
-            ${Array.from({length:18},(_,i)=>`<tr><td>${i+1}</td><td>${data.attendees[i].n||''}</td><td>${data.attendees[i].t||''}</td><td>${i+19}</td><td>${data.attendees[i+18].n||''}</td><td>${data.attendees[i+18].t||''}</td></tr>`).join('')}
-          </tbody></table>
-          <div class="sheet-sigs"><div class="sheet-sig"><strong>Site Supervisor / Engineer:</strong><br>${data.superName}</div><div class="sheet-sig"><strong>HSE Officer:</strong><br>${data.hseName}</div></div>
-          <div class="sheet-disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
-          <div class="sheet-footer">Document Ref: DC-HSE-LME-018</div>
-        `;
-        const temp = document.createElement('div'); temp.className='a4-sheet'; temp.innerHTML=sheetHTML; temp.style.display='block';
-        document.body.appendChild(temp);
-        html2pdf().set({margin:10, filename:`TBT_${data.project.replace(/\s+/g,'_')}_${data.date}.pdf`, image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(temp).save().then(()=>document.body.removeChild(temp));
-      }
-    }
+  const reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+  const data = reports.find(r => r.id === id);
+  if(!data) return;
+
+  let sheetHTML = '';
+  const isWHT = data.docName && data.docName.includes("WEEKLY");
+
+  if(isWHT) {
+    sheetHTML = `
+      <div class="sheet-header">
+        <img src="logo-left.png" class="sheet-logo" alt="L">
+        <div class="sheet-org">
+          <h2>LINK MIDDLE EAST GENERAL CONTRACTING CO</h2>
+          <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+          <p>Tel.: (9712) 658 8504, FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+          <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+        </div>
+        <img src="logo-right.png" class="sheet-logo" alt="R">
+      </div>
+      <div class="sheet-title">WEEKLY HSE TRAINING RECORD</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px 15px; font-size: 11px; margin: 10px 0; padding: 0 5px;">
+        <div><strong>Project Name:</strong> ${data.projName}</div>
+        <div><strong>Project No.:</strong> ${data.projNo}</div>
+        <div><strong>Instructor Name:</strong> ${data.instructor}</div>
+        <div><strong>Date:</strong> ${data.date}</div>
+        <div><strong>Type of Training:</strong> ${data.type}</div>
+        <div><strong>Duration:</strong> ${data.duration}</div>
+        <div><strong>Location of Training:</strong> ${data.location}</div>
+        <div><strong>Time:</strong> ${data.time}</div>
+      </div>
+      <table class="sheet-table" style="width:100%; margin: 10px 0;">
+        <thead><tr><th style="width:8%">NO</th><th>NAME</th><th>COMPANY</th><th>TITLE</th><th>ID</th></tr></thead>
+        <tbody>
+          ${Array.from({length:20}, (_,i) => `
+            <tr style="height: 28px;">
+              <td>${i+1}.</td><td>${data.attendees[i]?.n||''}</td><td>${data.attendees[i]?.c||''}</td><td>${data.attendees[i]?.t||''}</td><td>${data.attendees[i]?.id||''}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <div class="sheet-disclaimer" style="margin-top: 20px;">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+      <div class="sheet-footer" style="margin-top: 10px;">WEEKLY HSE TRAINING &nbsp;|&nbsp; DC-HSE-LME-017</div>
+    `;
+  } else {
+    sheetHTML = `
+      <div class="sheet-header">
+        <img src="logo-left.png" class="sheet-logo" alt="L">
+        <div class="sheet-org">
+          <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
+          <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+          <p>Tel.: (9712) 658 8504 | FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+          <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+        </div>
+        <img src="logo-right.png" class="sheet-logo" alt="R">
+      </div>
+      <div class="sheet-title">TOOL BOX TALK</div>
+      <div class="sheet-meta"><div><strong>Date:</strong> ${data.date}</div><div><strong>Project:</strong> ${data.project}</div><div><strong>Location:</strong> ${data.location}</div></div>
+      <div style="margin:5px 0; font-size:11px;"><strong>Topics:</strong></div>
+      <div class="sheet-topics">${data.topics.replace(/\n/g,'<br>')}</div>
+      <table class="sheet-table"><thead><tr><th>SL NO</th><th>NAME</th><th>TITLE</th><th>SL NO</th><th>NAME</th><th>TITLE</th></tr></thead><tbody>
+        ${Array.from({length:18},(_,i)=>`<tr><td>${i+1}</td><td>${data.attendees[i]?.n||''}</td><td>${data.attendees[i]?.t||''}</td><td>${i+19}</td><td>${data.attendees[i+18]?.n||''}</td><td>${data.attendees[i+18]?.t||''}</td></tr>`).join('')}
+      </tbody></table>
+      <div class="sheet-sigs"><div class="sheet-sig"><strong>Site Supervisor / Engineer:</strong><br>${data.superName}</div><div class="sheet-sig"><strong>HSE Officer:</strong><br>${data.hseName}</div></div>
+      <div class="sheet-disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+      <div class="sheet-footer">Document Ref: DC-HSE-LME-018</div>
+    `;
+  }
+
+  const temp = document.createElement('div');
+  temp.className='a4-sheet';
+  temp.innerHTML=sheetHTML;
+  temp.style.position = 'fixed'; temp.style.left = '-9999px'; temp.style.top = '0';
+  temp.style.width = '210mm'; temp.style.padding = '15mm'; temp.style.boxSizing = 'border-box'; temp.style.background = '#fff';
+  document.body.appendChild(temp);
+
+  html2pdf().set({margin: [10,10,10,10], filename:`${data.docName.replace(/\s+/g,'_')}_${data.date}.pdf`, image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(temp).save().then(()=>document.body.removeChild(temp));
+}
 
     function renderDocs() {
       const q = searchInput.value.toLowerCase();
