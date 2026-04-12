@@ -110,8 +110,6 @@
       border: 1px solid var(--primary-light);
     }
     .doc-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
-    
-    /* ✅ UPDATED BUTTON STYLE FOR BOTH BUTTON AND LINK */
     .btn-view { 
       width: 100%; padding: 11px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
       color: #fff; border: none; border-radius: 9px; cursor: pointer; font-weight: 600; 
@@ -120,7 +118,6 @@
       box-sizing: border-box;
     }
     .btn-view:hover { opacity: 0.92; }
-    
     .no-results { grid-column: 1 / -1; text-align: center; padding: 28px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
     .footer { text-align: center; padding: 18px 15px; font-size: 10.5px; color: var(--footer-text); margin-top: 22px; border-top: 1px solid var(--border); background: var(--card); max-width: 1200px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
     
@@ -156,19 +153,18 @@
   <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal</footer>
 
   <script>
-    // 📄 12 GOLDEN RULES is linked. All others show alert.
     const docs = [
       { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy", pdf: null },
-      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: "zero-harm-philosophy.pdf" },
-      { name: "Roles and responsibilities", cat: "policy", pdf: "DC-HSE-LME-03-Roles-and-responsblities.pdf" },
-      { name: "Mandatory PPE", cat: "policy", pdf: "DC-HSE-LME-028-Mandatory-PPE.pdf" },
-      { name: "12 GOLDEN RULES", cat: "policy", pdf: "12%20GOLDEN%20RULES.pdf" },
+      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: null },
+      { name: "Roles and responsibilities", cat: "policy", pdf: null },
+      { name: "Mandatory PPE", cat: "policy", pdf: null },
+      { name: "12 GOLDEN RULES", cat: "policy", pdf: null },
       { name: "LME ISO CERTIFICATIONS", cat: "policy", pdf: null },
-      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy", pdf: "DC-HSE-LME-029.EMERGENCY RESPONSE PROCEDURE.pdf" },
-      { name: "EMERGENCY RESPONSE TEAM", cat: "policy", pdf:  "DC-HSE-LME-030-EMERGENCY-RESPONSE-TEAM.pdf" },
+      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy", pdf: null },
+      { name: "EMERGENCY RESPONSE TEAM", cat: "policy", pdf: null },
       { name: "Emergency Evacuation Drill Report Form", cat: "policy", pdf: null },
-      { name: "Reporting Procedures", cat: "policy", pdf: "DC-HSE-LME-61-Reporting-Procedures.pdf" },
-      { name: "EVALUATION OF LEGAL COMPLIANCE LMEGCC", cat: "policy", pdf: "DC-HSE-LME-63-EVALUATION-OF-LEGAL-COMPLIANCE.pdf" },
+      { name: "Reporting Procedures", cat: "policy", pdf: null },
+      { name: "EVALUATION OF LEGAL COMPLIANCE LMEGCC", cat: "policy", pdf: null },
       { name: "Plant &Vehicle inspection Checklist", cat: "inspection", pdf: null },
       { name: "Fire Extinguisher Inspection Register", cat: "inspection", pdf: null },
       { name: "Monthly Power Tools Inspection Log", cat: "inspection", pdf: null },
@@ -197,8 +193,8 @@
       { name: "HEAT ILLNESS TBT", cat: "training", pdf: null },
       { name: "HSE TRAINING MATRIX", cat: "training", pdf: null },
       { name: "Under Ground & Over Head Services", cat: "training", pdf: null },
-      { name: "LME HSE INDUCTION", cat: "training", pdf: "DC-HSE-LME-053-LME-HSE-INDUCTION-SLIDES.pdf" },
-      { name: "Induction sticker", cat: "training", pdf: null },
+      // ✅ UPDATED: LME HSE INDUCTION now has 2 PDF slots
+      { name: "LME HSE INDUCTION", cat: "training", pdf: "lme-hse-induction-slides.pdf", pdf2: "induction-sticker.pdf" },
       { name: "First Aid Report Form", cat: "incident", pdf: null },
       { name: "WARNING LETTER", cat: "incident", pdf: null },
       { name: "HSE Observation Summary", cat: "incident", pdf: null },
@@ -231,16 +227,22 @@
       const filtered = docs.filter(d => (activeCat === 'all' || d.cat === activeCat) && d.name.toLowerCase().includes(q));
       
       grid.innerHTML = filtered.length ? filtered.map(d => {
-        // ✅ Logic: If 'pdf' exists, create Link (<a>). Else, create Button (<button>).
-        const action = d.pdf 
-          ? `<a href="${d.pdf}" target="_blank" class="btn-view">Open Form</a>`
-          : `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
+        let buttonsHtml = '';
+        if (d.pdf) {
+          buttonsHtml += `<a href="${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a>`;
+        }
+        if (d.pdf2) {
+          buttonsHtml += `<a href="${d.pdf2}" target="_blank" class="btn-view">📥 Open Sticker</a>`;
+        }
+        if (!d.pdf && !d.pdf2) {
+          buttonsHtml = `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
+        }
 
         return `
         <div class="doc-card">
           <div class="doc-badge">📄 FORM</div>
           <div class="doc-name">${d.name}</div>
-          ${action}
+          ${buttonsHtml}
         </div>
         `;
       }).join('') : '<div class="no-results">🔍 No documents found</div>';
