@@ -110,12 +110,17 @@
       border: 1px solid var(--primary-light);
     }
     .doc-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
+    
+    /* ✅ UPDATED BUTTON STYLE FOR BOTH BUTTON AND LINK */
     .btn-view { 
       width: 100%; padding: 11px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
       color: #fff; border: none; border-radius: 9px; cursor: pointer; font-weight: 600; 
       font-size: 12.5px; min-height: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(230,126,34,0.3);
+      text-decoration: none; display: inline-flex; justify-content: center; align-items: center; text-align: center;
+      box-sizing: border-box;
     }
     .btn-view:hover { opacity: 0.92; }
+    
     .no-results { grid-column: 1 / -1; text-align: center; padding: 28px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
     .footer { text-align: center; padding: 18px 15px; font-size: 10.5px; color: var(--footer-text); margin-top: 22px; border-top: 1px solid var(--border); background: var(--card); max-width: 1200px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
     
@@ -151,68 +156,69 @@
   <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal</footer>
 
   <script>
+    // 📄 12 GOLDEN RULES is linked. All others show alert.
     const docs = [
-      { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy" },
-      { name: "ZERO HARM PHILOSOPHY", cat: "policy" },
-      { name: "Roles and responsibilities", cat: "policy" },
-      { name: "Mandatory PPE", cat: "policy" },
-      { name: "12 GOLDEN RULES", cat: "policy" },
-      { name: "LME ISO CERTIFICATIONS", cat: "policy" },
-      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy" },
-      { name: "EMERGENCY RESPONSE TEAM", cat: "policy" },
-      { name: "Emergency Evacuation Drill Report Form", cat: "policy" },
-      { name: "Reporting Procedures", cat: "policy" },
-      { name: "EVALUATION OF LEGAL COMPLIANCE LMEGCC", cat: "policy" },
-      { name: "Plant &Vehicle inspection Checklist", cat: "inspection" },
-      { name: "Fire Extinguisher Inspection Register", cat: "inspection" },
-      { name: "Monthly Power Tools Inspection Log", cat: "inspection" },
-      { name: "Housekeeping checklist", cat: "inspection" },
-      { name: "Weekly Bus Inspection Checklist", cat: "inspection" },
-      { name: "Safety in Heat Checklist", cat: "inspection" },
-      { name: "DAILY PRE-COMMENCEMENT EXCAVATION CHECKLIST", cat: "inspection" },
-      { name: "Monthly Lifting Gear Inspection Report Form", cat: "inspection" },
-      { name: "DAILY HSE INSPECTION REPORT", cat: "inspection" },
-      { name: "HSE Monthly Audit Form", cat: "inspection" },
-      { name: "Quarterly Inspection Color Code", cat: "inspection" },
-      { name: "CLEANING LOG SHEET", cat: "inspection" },
-      { name: "WORKING AT HEIGHT", cat: "inspection" },
-      { name: "HSE INSPECTION OFFICE & ACCOMODATION CHECKLIST", cat: "inspection" },
-      { name: "GENERATOR MAINTENANCE RECORD", cat: "inspection" },
-      { name: "Battery operated Tools monthly Inspection Log", cat: "inspection" },
-      { name: "Manlift Inspection Checklist", cat: "inspection" },
-      { name: "Monthly HSE coordination meeting attendance sheet", cat: "training" },
-      { name: "HSE INDUCTION ATTENDANCE SHEET", cat: "training" },
-      { name: "MSRA communication Record", cat: "training" },
-      { name: "WEEKLY HSE TRAINING", cat: "training" },
-      { name: "Tool Box Talk", cat: "training" },
-      { name: "STARRT Briefing", cat: "training" },
-      { name: "Confined Space Entry Log sheet", cat: "training" },
-      { name: "WEEKLY HSE & TBT TRAINING RECORDS", cat: "training" },
-      { name: "HEAT ILLNESS TBT", cat: "training" },
-      { name: "HSE TRAINING MATRIX", cat: "training" },
-      { name: "Under Ground & Over Head Services", cat: "training" },
-      { name: "LME HSE INDUCTION SLIDES", cat: "training" },
-      { name: "Induction sticker", cat: "training" },
-      { name: "First Aid Report Form", cat: "incident" },
-      { name: "WARNING LETTER", cat: "incident" },
-      { name: "HSE Observation Summary", cat: "incident" },
-      { name: "Near miss Register", cat: "incident" },
-      { name: "ACCIDENT OR INCIDENT REPORT", cat: "incident" },
-      { name: "HSE CAMPAIGN REPORT", cat: "incident" },
-      { name: "LEADERSHIP TOUR", cat: "incident" },
-      { name: "Weekly HSE statistics report", cat: "report" },
-      { name: "MONTHLY HSE REPORT", cat: "report" },
-      { name: "ANNUAL HSE STATISTICS REPORT", cat: "report" },
-      { name: "WASTE MANAGEMENT CHART", cat: "report" },
-      { name: "internal Monthly KPI format", cat: "report" },
-      { name: "Man-Machine Interface", cat: "procedure" },
-      { name: "Safe Operation of vehicle, plant & equipment", cat: "procedure" },
-      { name: "Manual Handling Safety", cat: "procedure" },
-      { name: "ADVERSE WEATHER CONDITIONS", cat: "procedure" },
-      { name: "JOURNEY MANAGEMENT PLAN", cat: "procedure" },
-      { name: "HSE PLAN", cat: "procedure" },
-      { name: "Annual HSE AUDIT PLAN", cat: "procedure" },
-      { name: "EMERGENCY ANNUAL PLAN", cat: "procedure" }
+      { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy", pdf: null },
+      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: null },
+      { name: "Roles and responsibilities", cat: "policy", pdf: null },
+      { name: "Mandatory PPE", cat: "policy", pdf: null },
+      { name: "12 GOLDEN RULES", cat: "policy", pdf: "12-golden-rules.pdf" },
+      { name: "LME ISO CERTIFICATIONS", cat: "policy", pdf: null },
+      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy", pdf: null },
+      { name: "EMERGENCY RESPONSE TEAM", cat: "policy", pdf: null },
+      { name: "Emergency Evacuation Drill Report Form", cat: "policy", pdf: null },
+      { name: "Reporting Procedures", cat: "policy", pdf: null },
+      { name: "EVALUATION OF LEGAL COMPLIANCE LMEGCC", cat: "policy", pdf: null },
+      { name: "Plant &Vehicle inspection Checklist", cat: "inspection", pdf: null },
+      { name: "Fire Extinguisher Inspection Register", cat: "inspection", pdf: null },
+      { name: "Monthly Power Tools Inspection Log", cat: "inspection", pdf: null },
+      { name: "Housekeeping checklist", cat: "inspection", pdf: null },
+      { name: "Weekly Bus Inspection Checklist", cat: "inspection", pdf: null },
+      { name: "Safety in Heat Checklist", cat: "inspection", pdf: null },
+      { name: "DAILY PRE-COMMENCEMENT EXCAVATION CHECKLIST", cat: "inspection", pdf: null },
+      { name: "Monthly Lifting Gear Inspection Report Form", cat: "inspection", pdf: null },
+      { name: "DAILY HSE INSPECTION REPORT", cat: "inspection", pdf: null },
+      { name: "HSE Monthly Audit Form", cat: "inspection", pdf: null },
+      { name: "Quarterly Inspection Color Code", cat: "inspection", pdf: null },
+      { name: "CLEANING LOG SHEET", cat: "inspection", pdf: null },
+      { name: "WORKING AT HEIGHT", cat: "inspection", pdf: null },
+      { name: "HSE INSPECTION OFFICE & ACCOMODATION CHECKLIST", cat: "inspection", pdf: null },
+      { name: "GENERATOR MAINTENANCE RECORD", cat: "inspection", pdf: null },
+      { name: "Battery operated Tools monthly Inspection Log", cat: "inspection", pdf: null },
+      { name: "Manlift Inspection Checklist", cat: "inspection", pdf: null },
+      { name: "Monthly HSE coordination meeting attendance sheet", cat: "training", pdf: null },
+      { name: "HSE INDUCTION ATTENDANCE SHEET", cat: "training", pdf: null },
+      { name: "MSRA communication Record", cat: "training", pdf: null },
+      { name: "WEEKLY HSE TRAINING", cat: "training", pdf: null },
+      { name: "Tool Box Talk", cat: "training", pdf: null },
+      { name: "STARRT Briefing", cat: "training", pdf: null },
+      { name: "Confined Space Entry Log sheet", cat: "training", pdf: null },
+      { name: "WEEKLY HSE & TBT TRAINING RECORDS", cat: "training", pdf: null },
+      { name: "HEAT ILLNESS TBT", cat: "training", pdf: null },
+      { name: "HSE TRAINING MATRIX", cat: "training", pdf: null },
+      { name: "Under Ground & Over Head Services", cat: "training", pdf: null },
+      { name: "LME HSE INDUCTION SLIDES", cat: "training", pdf: null },
+      { name: "Induction sticker", cat: "training", pdf: null },
+      { name: "First Aid Report Form", cat: "incident", pdf: null },
+      { name: "WARNING LETTER", cat: "incident", pdf: null },
+      { name: "HSE Observation Summary", cat: "incident", pdf: null },
+      { name: "Near miss Register", cat: "incident", pdf: null },
+      { name: "ACCIDENT OR INCIDENT REPORT", cat: "incident", pdf: null },
+      { name: "HSE CAMPAIGN REPORT", cat: "incident", pdf: null },
+      { name: "LEADERSHIP TOUR", cat: "incident", pdf: null },
+      { name: "Weekly HSE statistics report", cat: "report", pdf: null },
+      { name: "MONTHLY HSE REPORT", cat: "report", pdf: null },
+      { name: "ANNUAL HSE STATISTICS REPORT", cat: "report", pdf: null },
+      { name: "WASTE MANAGEMENT CHART", cat: "report", pdf: null },
+      { name: "internal Monthly KPI format", cat: "report", pdf: null },
+      { name: "Man-Machine Interface", cat: "procedure", pdf: null },
+      { name: "Safe Operation of vehicle, plant & equipment", cat: "procedure", pdf: null },
+      { name: "Manual Handling Safety", cat: "procedure", pdf: null },
+      { name: "ADVERSE WEATHER CONDITIONS", cat: "procedure", pdf: null },
+      { name: "JOURNEY MANAGEMENT PLAN", cat: "procedure", pdf: null },
+      { name: "HSE PLAN", cat: "procedure", pdf: null },
+      { name: "Annual HSE AUDIT PLAN", cat: "procedure", pdf: null },
+      { name: "EMERGENCY ANNUAL PLAN", cat: "procedure", pdf: null }
     ];
 
     const grid = document.getElementById('doc-grid');
@@ -223,13 +229,21 @@
     function renderDocs() {
       const q = searchInput.value.toLowerCase();
       const filtered = docs.filter(d => (activeCat === 'all' || d.cat === activeCat) && d.name.toLowerCase().includes(q));
-      grid.innerHTML = filtered.length ? filtered.map(d => `
+      
+      grid.innerHTML = filtered.length ? filtered.map(d => {
+        // ✅ Logic: If 'pdf' exists, create Link (<a>). Else, create Button (<button>).
+        const action = d.pdf 
+          ? `<a href="${d.pdf}" target="_blank" class="btn-view">Open Form</a>`
+          : `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
+
+        return `
         <div class="doc-card">
           <div class="doc-badge">📄 FORM</div>
           <div class="doc-name">${d.name}</div>
-          <button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>
+          ${action}
         </div>
-      `).join('') : '<div class="no-results">🔍 No documents found</div>';
+        `;
+      }).join('') : '<div class="no-results">🔍 No documents found</div>';
     }
 
     tabs.forEach(btn => btn.addEventListener('click', () => {
