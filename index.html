@@ -6,7 +6,6 @@
   <title>HSE Documentation Portal - LME</title>
   <style>
     :root {
-      /* 🎨 EXACT COLORS FROM heatindex-nazeerkadhar.onrender.com */
       --bg: linear-gradient(180deg, #1a252f 0%, #2c3e50 100%);
       --card: #2c3e50; --card-hover: #34495e;
       --primary: #e67e22; --primary-dark: #d35400; --primary-light: #f39c12;
@@ -17,19 +16,25 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; padding-bottom: 30px; }
-    img { max-width: 100%; display: block; }
     
-    /* 📱 MOBILE HEADER: Logo → Org → Logo (Stacked) */
+    /* ✅ CORRECTED LOGO STYLING FOR MAXIMUM CLARITY */
+    .logo-wrap { 
+      width: 60px; height: 60px; background: #ffffff; border-radius: 10px; padding: 6px; 
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      border: 2px solid var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .logo-wrap img { 
+      width: 100%; height: 100%; object-fit: contain; display: block;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      filter: contrast(1.05) brightness(1.02);
+    }
+
     .header { 
       background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); 
       color: #fff; padding: 16px 12px; display: flex; flex-direction: column; 
       align-items: center; gap: 12px; border-bottom: 4px solid var(--primary);
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-    .logo-wrap { 
-      width: 55px; height: 55px; background: #fff; border-radius: 10px; padding: 5px; 
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-      border: 2px solid var(--primary); box-shadow: 0 3px 10px rgba(0,0,0,0.3);
     }
     .org-center { text-align: center; padding: 0 6px; width: 100%; }
     .org-name { font-size: 13px; font-weight: 800; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.4px; line-height: 1.2; color: #fff; }
@@ -41,15 +46,13 @@
       display: inline-block; border: 1.5px solid var(--primary-light);
     }
 
-    /* 💻 DESKTOP HEADER: Logo | Org | Logo (Row) */
     @media (min-width: 768px) {
       .header { flex-direction: row; justify-content: space-between; padding: 14px 20px; gap: 18px; }
-      .logo-wrap { width: 65px; height: 65px; }
+      .logo-wrap { width: 70px; height: 70px; padding: 8px; }
       .org-name { font-size: 15px; }
       .org-line { font-size: 10.5px; }
     }
 
-    /* 🔍 SEARCH */
     .search-wrap { max-width: 850px; margin: 0 auto 14px; padding: 0 14px; }
     .search-box { 
       width: 100%; padding: 12px 16px; border: 2px solid var(--border); 
@@ -60,7 +63,6 @@
     .search-box::placeholder { color: var(--muted); }
     .search-box:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(230,126,34,0.3); }
 
-    /* 📑 TABS */
     .tabs { max-width: 850px; margin: 0 auto 16px; padding: 0 14px; display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
     .tab { 
@@ -76,7 +78,6 @@
       color: #fff; border-color: transparent; box-shadow: 0 3px 10px rgba(230,126,34,0.4); 
     }
 
-    /* 📄 GRID & CARDS */
     .container { max-width: 950px; margin: 0 auto; padding: 0 14px; }
     .doc-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
     .doc-card { 
@@ -135,7 +136,6 @@
   <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal</footer>
 
   <script>
-    // 📄 61 Valid Documents (Duplicates Removed Per Your Rules)
     const docs = [
       { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy" },
       { name: "ZERO HARM PHILOSOPHY", cat: "policy" },
