@@ -1,0 +1,3 @@
+{
+  "postStartCommand": "cd frontend && npm run dev"
+}
