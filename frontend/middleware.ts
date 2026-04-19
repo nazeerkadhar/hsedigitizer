@@ -2,28 +2,21 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  const pathname = request.nextUrl.pathname
+  const publicRoutes = ['/', '/login']
   
-  // Skip public & static routes
-  const allowed = ['/', '/login', '/about', '/contact', '/privacy', '/terms']
-  const staticPrefix = ['/_next', '/api', '/favicon.ico', '/images', '/fonts']
-  
-  if (allowed.includes(pathname) || staticPrefix.some(p => pathname.startsWith(p))) {
-    return NextResponse.next()
-  }
+  if (publicRoutes.includes(pathname)) return NextResponse.next()
 
-  // Reliable Supabase cookie check
-  const hasSession = [...request.cookies.getAll()].some(c => c.name.startsWith('sb-'))
-  
+  const hasSession = [...request.cookies.getAll()].some(c => c.name.includes('auth-token'))
+
   if (!hasSession) {
-    const loginUrl = new URL('/login', request.url)
-    loginUrl.searchParams.set('redirect', pathname)
-    return NextResponse.redirect(loginUrl)
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    url.searchParams.set('redirect', pathname)
+    return NextResponse.redirect(url)
   }
 
   return NextResponse.next()
 }
 
-export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)'],
-}
+export const config = { matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)'] }
