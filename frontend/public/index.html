@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>HSE Documentation Portal - LME</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    :root {
+      --bg: linear-gradient(180deg, #1a252f 0%, #2c3e50 100%);
+      --card: #2c3e50; --card-hover: #34495e;
+      --primary: #e67e22; --primary-dark: #d35400; --primary-light: #f39c12;
+      --success: #27ae60; --danger: #e74c3c; --purple: #9b59b6;
+      --text: #ecf0f1; --muted: #95a5a6; --footer-text: #7f8c8d;
+      --border: #34495e; --shadow: 0 4px 12px rgba(0,0,0,0.3);
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; padding-bottom: 30px; }
+    
+    .header { background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: #fff; padding: 10px 8px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .logo-wrap { width: 40px; height: 40px; background: #ffffff; border-radius: 8px; padding: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid var(--primary); box-shadow: 0 3px 8px rgba(0,0,0,0.4); }
+    .logo-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; filter: contrast(1.05) brightness(1.02); }
+    .org-center { flex: 1; text-align: center; padding: 0 4px; min-width: 0; }
+    .org-name { font-size: 11px; font-weight: 800; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.15px; line-height: 1.15; color: #fff; overflow-wrap: break-word; word-break: break-word; }
+    .org-line { font-size: 8.5px; color: #bdc3c7; margin: 1px 0; line-height: 1.2; overflow-wrap: break-word; }
+    .portal-badge { text-align: center; font-size: 11px; font-weight: 700; color: var(--primary); background: var(--card); padding: 6px 14px; margin: 10px auto 0; max-width: 92%; border-radius: 20px; letter-spacing: 0.6px; box-shadow: var(--shadow); display: inline-block; border: 1.5px solid var(--primary-light); }
+
+    @media (min-width: 600px) { .header { padding: 12px 16px; gap: 14px; } .logo-wrap { width: 55px; height: 55px; padding: 5px; border-radius: 10px; } .org-name { font-size: 13px; letter-spacing: 0.3px; line-height: 1.2; } .org-line { font-size: 9.5px; } }
+    @media (min-width: 850px) { .header { padding: 14px 20px; gap: 18px; } .logo-wrap { width: 65px; height: 65px; padding: 6px; border-radius: 12px; } .org-name { font-size: 15px; } .org-line { font-size: 10.5px; } }
+
+    .search-wrap { max-width: 1200px; margin: 14px auto 0; padding: 0 14px; }
+    .search-box { width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 14px; outline: none; background: #34495e; color: var(--text); box-shadow: var(--shadow); transition: border 0.2s, box-shadow 0.2s; }
+    .search-box::placeholder { color: var(--muted); }
+    .search-box:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(230,126,34,0.3); }
+
+    .tabs { max-width: 1200px; margin: 14px auto 0; padding: 0 14px; display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { padding: 9px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; white-space: nowrap; transition: all 0.2s; color: var(--muted); min-height: 40px; display: flex; align-items: center; }
+    .tab:hover { background: var(--card-hover); }
+    .tab:active { transform: scale(0.97); }
+    .tab.active { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-color: transparent; box-shadow: 0 3px 10px rgba(230,126,34,0.4); }
+
+    .container { max-width: 1200px; margin: 16px auto; padding: 0 14px; }
+    .doc-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .doc-card { background: var(--card); border-radius: var(--radius); padding: 14px; border: 2px solid var(--border); box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
+    .doc-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary) 0%, var(--purple) 100%); }
+    .doc-card:hover { transform: translateY(-2px); background: var(--card-hover); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+    .doc-badge { font-size: 9px; font-weight: 700; color: var(--primary); background: rgba(230,126,34,0.15); padding: 3px 8px; border-radius: 10px; display: inline-block; margin-bottom: 5px; border: 1px solid var(--primary-light); }
+    .doc-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
+    .btn-view { width: 100%; padding: 11px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: 12.5px; min-height: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(230,126,34,0.3); text-decoration: none; display: inline-flex; justify-content: center; align-items: center; text-align: center; box-sizing: border-box; }
+    .btn-view:hover { opacity: 0.92; }
+    .no-results { grid-column: 1 / -1; text-align: center; padding: 28px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
+    .footer { text-align: center; padding: 18px 15px; font-size: 10.5px; color: var(--footer-text); margin-top: 22px; border-top: 1px solid var(--border); background: var(--card); max-width: 1200px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
+    
+    @media (min-width: 480px) { .doc-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 768px) { .doc-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1024px) { .doc-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    /* 📄 MODAL STYLES */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; overflow-y: auto; padding: 20px 10px; }
+    .modal-content { background: #fff; color: #000; max-width: 850px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.5); position: relative; }
+    .close-modal { position: absolute; top: 10px; right: 12px; font-size: 26px; font-weight: bold; cursor: pointer; color: #555; background: none; border: none; line-height: 1; }
+    
+    /* 📝 INPUT FORM STYLES */
+    .form-input-view { padding: 15px 0; }
+    .input-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+    .input-group { flex: 1; min-width: 140px; }
+    .input-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 4px; color: #333; }
+    .input-group input, .input-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+    .attendee-inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; max-height: 200px; overflow-y: auto; padding: 5px; border: 1px solid #eee; border-radius: 6px; background: #fafafa; }
+    .att-input { display: flex; gap: 5px; align-items: center; }
+    .att-input span { font-size: 11px; color: #666; min-width: 18px; }
+    .att-input input { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; }
+    .form-actions { display: flex; gap: 10px; margin-top: 15px; justify-content: flex-end; }
+    .btn-gen { background: #27ae60; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .btn-gen:hover { background: #219150; }
+    .btn-clear { background: #7f8c8d; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+
+    /* 📄 A4 OUTPUT STYLES (Hidden until generated) */
+    .a4-sheet { display: none; background: #fff; padding: 15px; font-family: 'Times New Roman', serif; color: #000; }
+    .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 8px; }
+    .sheet-logo { width: 45px; height: 45px; object-fit: contain; }
+    .sheet-org { text-align: center; flex: 1; padding: 0 10px; }
+    .sheet-org h2 { font-size: 14px; margin: 0 0 2px; text-transform: uppercase; }
+    .sheet-org p { font-size: 9px; margin: 1px 0; }
+    .sheet-title { text-align: center; font-size: 16px; font-weight: bold; margin: 8px 0; text-transform: uppercase; border: 1px solid #000; padding: 5px; }
+    .sheet-meta { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; font-size: 11px; }
+    .sheet-meta div { border-bottom: 1px dotted #333; padding-bottom: 2px; }
+    .sheet-topics { margin: 8px 0; padding: 8px; border: 1px solid #333; min-height: 40px; font-size: 12px; }
+    .sheet-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10px; }
+    .sheet-table th, .sheet-table td { border: 1px solid #000; padding: 4px; text-align: center; }
+    .sheet-table th { background: #eee; }
+    .sheet-sigs { display: flex; gap: 30px; margin: 15px 0 10px; font-size: 11px; }
+    .sheet-sig { flex: 1; border-bottom: 1px solid #000; padding-bottom: 25px; }
+    .sheet-disclaimer { font-size: 9px; font-style: italic; text-align: center; margin-top: 10px; padding: 5px; background: #f5f5f5; border: 1px dashed #999; }
+    .sheet-footer { text-align: center; font-size: 9px; margin-top: 5px; color: #333; }
+
+    /* 📊 SAVED REPORTS FILTER STYLES */
+    .filter-view { padding: 10px 0; }
+    .filter-bar { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+    .filter-bar input { flex: 1; min-width: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; }
+    .report-list { max-height: 60vh; overflow-y: auto; }
+    .report-item { background: #f8f9fa; border: 1px solid #ddd; padding: 12px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .report-info { font-size: 12px; color: #333; }
+    .report-btn { background: var(--primary); color: #fff; border: none; padding: 7px 14px; border-radius: 5px; cursor: pointer; font-size: 11px; }
+    .report-btn:hover { opacity: 0.9; }
+
+    @media print {
+      body * { visibility: hidden; }
+      .a4-sheet, .a4-sheet * { visibility: visible; }
+      .a4-sheet { position: absolute; left: 0; top: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo-wrap"><img src="logo-left.png" alt="LME Left"></div>
+    <div class="org-center">
+      <div class="org-name">LINK MIDDLE EAST GENERAL CONTRACTING CO</div>
+      <div class="org-line">P.O. Box: 51070, ABU DHABI - U.A.E.</div>
+      <div class="org-line">Tel.: (9712) 658 8504 | FAX: (9712) 658 8505</div>
+      <div class="org-line">E-mail: lmedubai@eim.ae</div>
+      <div class="org-line">H.O: P. O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</div>
+    </div>
+    <div class="logo-wrap"><img src="logo-right.png" alt="LME Right"></div>
+  </header>
+  <div style="text-align:center"><div class="portal-badge">📑 HSE DOCUMENTATION PORTAL</div></div>
+  <div class="search-wrap"><input type="text" id="search" class="search-box" placeholder="🔍 Search documents..."></div>
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-cat="all">📋 All</button>
+    <button class="tab" data-cat="policy">📜 Policies</button>
+    <button class="tab" data-cat="inspection">🔍 Inspections</button>
+    <button class="tab" data-cat="training">🎓 Training</button>
+    <button class="tab" data-cat="incident">🚨 Incidents</button>
+    <button class="tab" data-cat="report">📊 Reports</button>
+    <button class="tab" data-cat="procedure">📁 Plans</button>
+    <button class="tab" data-cat="saved" onclick="openSavedModal()">📂 Saved Reports</button>
+  </nav>
+  <main class="container"><div id="doc-grid" class="doc-grid"></div></main>
+  <footer class="footer">© 2026 LINK MIDDLE EAST GENERAL CONTRACTING CO | HSE Compliance Portal</footer>
+
+  <!-- 📝 INPUT FORM MODAL -->
+  <div id="tbt-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeTBTModal()">&times;</button>
+      <h2 style="margin-bottom:10px; color:#222;">📝 Fill Tool Box Talk Form</h2>
+      <div class="form-input-view">
+        <div class="input-row">
+          <div class="input-group"><label>Date</label><input type="date" id="in-date"></div>
+          <div class="input-group"><label>Project</label><input type="text" id="in-project" placeholder="Project Name"></div>
+          <div class="input-group"><label>Location</label><input type="text" id="in-location" placeholder="Site/Location"></div>
+        </div>
+        <div class="input-row">
+          <div class="input-group" style="flex:1"><label>Topics Discussed</label><textarea id="in-topics" rows="3" placeholder="List safety topics..."></textarea></div>
+        </div>
+        <div style="margin:10px 0;"><label style="font-size:11px; font-weight:700; color:#333;">Attendees (36 Workers)</label></div>
+        <div class="attendee-inputs" id="att-inputs"></div>
+        <div class="input-row">
+          <div class="input-group"><label>Site Supervisor / Engineer Name</label><input type="text" id="in-super"></div>
+          <div class="input-group"><label>HSE Officer Name</label><input type="text" id="in-hse"></div>
+        </div>
+        <div class="form-actions">
+  <button class="btn-clear" onclick="saveOnly()" style="background:#3498db;">💾 Save Only</button>
+  <button class="btn-clear" onclick="clearTBTInput()">🔄 Clear</button>
+  <button class="btn-gen" onclick="generateAndDownload()">📥 Generate & Download A4 PDF</button>
+</div>
+      </div>
+    </div>
+  </div>
+
+    <!-- 📝 WEEKLY HSE TRAINING MODAL -->
+  <div id="wht-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeWHTModal()">&times;</button>
+      <h2 style="margin-bottom:10px; color:#222;">📝 Fill Weekly HSE Training Form</h2>
+      <div class="form-input-view">
+        <div class="input-row">
+          <div class="input-group"><label>Project Name</label><input type="text" id="wht-projName" placeholder="Project Name"></div>
+          <div class="input-group"><label>Project No.</label><input type="text" id="wht-projNo" placeholder="Project Number"></div>
+          <div class="input-group"><label>Date</label><input type="date" id="wht-date"></div>
+        </div>
+        <div class="input-row">
+          <div class="input-group"><label>Instructor Name</label><input type="text" id="wht-instructor" placeholder="Instructor"></div>
+          <div class="input-group"><label>Type of Training</label><input type="text" id="wht-type" placeholder="Training Type"></div>
+          <div class="input-group"><label>Duration</label><input type="text" id="wht-duration" placeholder="e.g., 2 Hours"></div>
+        </div>
+        <div class="input-row">
+          <div class="input-group"><label>Location of Training</label><input type="text" id="wht-location" placeholder="Site/Room"></div>
+          <div class="input-group"><label>Time</label><input type="text" id="wht-time" placeholder="e.g., 09:00 AM"></div>
+        </div>
+        <div style="margin:10px 0;"><label style="font-size:11px; font-weight:700; color:#333;">Attendees (20 Workers)</label></div>
+        <div class="attendee-inputs" id="wht-att-inputs"></div>
+        <div class="form-actions">
+          <button class="btn-clear" onclick="saveWHTOnly()" style="background:#3498db;">💾 Save Only</button>
+          <button class="btn-clear" onclick="clearWHTInput()">🔄 Clear</button>
+          <button class="btn-gen" onclick="generateWHTPDF()">📥 Generate & Download A4 PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 📊 SAVED REPORTS FILTER MODAL -->
+  <div id="saved-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeSavedModal()">&times;</button>
+      <h3 style="margin-bottom:10px; color:#222;">📂 Saved Reports (Audit Ready)</h3>
+      <div class="filter-view">
+        <div class="filter-bar">
+  <input type="date" id="f-date" onchange="renderSaved()">
+  <input type="text" id="f-project" placeholder="Filter by Project" oninput="renderSaved()">
+  <input type="text" id="f-location" placeholder="Filter by Location" oninput="renderSaved()">
+  <input type="text" id="f-docname" placeholder="Filter by Document Name" oninput="renderSaved()">
+</div>
+        <div id="saved-list" class="report-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ RESTORED YOUR EXACT DOCUMENT LIST + PDF LINKS
+    const docs = [
+      { name: "IMS POLICY from IMS MANUAL LMEGCC 2020", cat: "policy", pdf: null },
+      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: "zero-harm-philosophy.pdf" },
+      { name: "Roles and responsibilities", cat: "policy", pdf: "DC-HSE-LME-03-Roles-and-responsblities.pdf" },
+      { name: "Mandatory PPE", cat: "policy", pdf: "DC-HSE-LME-028-Mandatory-PPE.pdf" },
+      { name: "12 GOLDEN RULES", cat: "policy", pdf: "12%20GOLDEN%20RULES.pdf" },
+      { name: "LME ISO CERTIFICATIONS", cat: "policy", pdf: null },
+      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy", pdf: "DC-HSE-LME-029.EMERGENCY RESPONSE PROCEDURE.pdf" },
+      { name: "EMERGENCY RESPONSE TEAM", cat: "policy", pdf:  "DC-HSE-LME-030-EMERGENCY-RESPONSE-TEAM.pdf" },
+      { name: "Emergency Evacuation Drill Report Form", cat: "policy", pdf: null },
+       { name: "Reporting Procedures", cat: "policy", pdf: "DC-HSE-LME-61-Reporting-Procedures.pdf" },
+      { name: "EVALUATION OF LEGAL COMPLIANCE LMEGCC", cat: "policy", pdf: "DC-HSE-LME-63-EVALUATION-OF-LEGAL-COMPLIANCE.pdf" },
+      { name: "Plant &Vehicle inspection Checklist", cat: "inspection", pdf: null },
+      { name: "Fire Extinguisher Inspection Register", cat: "inspection", pdf: null },
+      { name: "Monthly Power Tools Inspection Log", cat: "inspection", pdf: null },
+      { name: "Housekeeping checklist", cat: "inspection", pdf: null },
+      { name: "Weekly Bus Inspection Checklist", cat: "inspection", pdf: null },
+      { name: "Safety in Heat Checklist", cat: "inspection", pdf: null },
+      { name: "DAILY PRE-COMMENCEMENT EXCAVATION CHECKLIST", cat: "inspection", pdf: null },
+      { name: "Monthly Lifting Gear Inspection Report Form", cat: "inspection", pdf: null },
+      { name: "DAILY HSE INSPECTION REPORT", cat: "inspection", pdf: null },
+      { name: "HSE Monthly Audit Form", cat: "inspection", pdf: null },
+      { name: "Quarterly Inspection Color Code", cat: "inspection", pdf: null },
+      { name: "CLEANING LOG SHEET", cat: "inspection", pdf: null },
+      { name: "WORKING AT HEIGHT", cat: "inspection", pdf: null },
+      { name: "HSE INSPECTION OFFICE & ACCOMODATION CHECKLIST", cat: "inspection", pdf: null },
+      { name: "GENERATOR MAINTENANCE RECORD", cat: "inspection", pdf: null },
+      { name: "Battery operated Tools monthly Inspection Log", cat: "inspection", pdf: null },
+      { name: "Manlift Inspection Checklist", cat: "inspection", pdf: null },
+      { name: "Monthly HSE coordination meeting attendance sheet", cat: "training", pdf: null },
+      { name: "HSE INDUCTION ATTENDANCE SHEET", cat: "training", pdf: null },
+      { name: "MSRA communication Record", cat: "training", pdf: null },
+      { name: "WEEKLY HSE TRAINING", cat: "training", type: "wht_form" },
+      { name: "Tool Box Talk", cat: "training", type: "form" },
+      { name: "STARRT Briefing", cat: "training", pdf: null },
+      { name: "Confined Space Entry Log sheet", cat: "training", pdf: null },
+      { name: "WEEKLY HSE & TBT TRAINING RECORDS", cat: "training", pdf: null },
+      { name: "HEAT ILLNESS TBT", cat: "training", pdf: null },
+      { name: "HSE TRAINING MATRIX", cat: "training", pdf: null },
+      { name: "Under Ground & Over Head Services", cat: "training", pdf: null },
+      { name: "LME HSE INDUCTION", cat: "training", pdf: "DC-HSE-LME-053-LME-HSE-INDUCTION-SLIDES.pdf", pdf2: "DC-HSE-LME-62-induction-sticker.pdf" },
+      { name: "First Aid Report Form", cat: "incident", pdf: null },
+      { name: "WARNING LETTER", cat: "incident", pdf: null },
+      { name: "HSE Observation Summary", cat: "incident", pdf: null },
+      { name: "Near miss Register", cat: "incident", pdf: null },
+      { name: "ACCIDENT OR INCIDENT REPORT", cat: "incident", pdf: null },
+      { name: "HSE CAMPAIGN REPORT", cat: "incident", pdf: null },
+      { name: "LEADERSHIP TOUR", cat: "incident", pdf: null },
+      { name: "Weekly HSE statistics report", cat: "report", pdf: null },
+      { name: "MONTHLY HSE REPORT", cat: "report", pdf: null },
+      { name: "ANNUAL HSE STATISTICS REPORT", cat: "report", pdf: null },
+      { name: "WASTE MANAGEMENT CHART", cat: "report", pdf: null },
+      { name: "internal Monthly KPI format", cat: "report", pdf: null },
+      { name: "Man-Machine Interface", cat: "procedure", pdf: null },
+      { name: "Safe Operation of vehicle, plant & equipment", cat: "procedure", pdf: null },
+      { name: "Manual Handling Safety", cat: "procedure", pdf: null },
+      { name: "ADVERSE WEATHER CONDITIONS", cat: "procedure", pdf: null },
+      { name: "JOURNEY MANAGEMENT PLAN", cat: "procedure", pdf: null },
+      { name: "HSE PLAN", cat: "procedure", pdf: null },
+      { name: "Annual HSE AUDIT PLAN", cat: "procedure", pdf: null },
+      { name: "EMERGENCY ANNUAL PLAN", cat: "procedure", pdf: null }
+    ];
+
+    const grid = document.getElementById('doc-grid');
+    const tabs = document.querySelectorAll('.tab');
+    const searchInput = document.getElementById('search');
+    let activeCat = 'all';
+
+    // Generate clean input fields for 36 attendees (Name + Title only)
+    const attContainer = document.getElementById('att-inputs');
+    for(let i=1; i<=36; i++) {
+      attContainer.innerHTML += `<div class="att-input"><span>${i}</span><input type="text" id="att-n${i}" placeholder="Name"><input type="text" id="att-t${i}" placeholder="Title"></div>`;
+    }
+
+    function openTBTModal() { document.getElementById('tbt-modal').style.display = 'block'; }
+    function closeTBTModal() { document.getElementById('tbt-modal').style.display = 'none'; }
+    function openSavedModal() { document.getElementById('saved-modal').style.display = 'block'; renderSaved(); }
+    function closeSavedModal() { document.getElementById('saved-modal').style.display = 'none'; }
+    function clearTBTInput() { document.querySelectorAll('.form-input-view input, .form-input-view textarea').forEach(el => el.value = ''); }
+    
+    // ✅ Generate 20 attendee inputs for Weekly HSE Training
+const whtAttContainer = document.getElementById('wht-att-inputs');
+for(let i=1; i<=20; i++) {
+  whtAttContainer.innerHTML += `
+    <div class="att-input" style="display:grid; grid-template-columns: 28px 1fr 1fr 1fr 1fr;">
+      <span>${i}</span>
+      <input type="text" id="wht-n${i}" placeholder="Name">
+      <input type="text" id="wht-c${i}" placeholder="Company">
+      <input type="text" id="wht-t${i}" placeholder="Title">
+      <input type="text" id="wht-id${i}" placeholder="ID">
+    </div>`;
+}
+
+function openWHTModal() { document.getElementById('wht-modal').style.display = 'block'; }
+function closeWHTModal() { document.getElementById('wht-modal').style.display = 'none'; }
+function clearWHTInput() { document.querySelectorAll('#wht-modal input').forEach(el => el.value = ''); }
+
+function saveWHTOnly() {
+  const atts = [];
+  for(let i=1; i<=20; i++) atts.push({
+    n: document.getElementById(`wht-n${i}`).value,
+    c: document.getElementById(`wht-c${i}`).value,
+    t: document.getElementById(`wht-t${i}`).value,
+    id: document.getElementById(`wht-id${i}`).value
+  });
+  
+  const data = {
+    id: Date.now().toString(),
+    docName: "WEEKLY HSE TRAINING",
+    projName: document.getElementById('wht-projName').value,
+    projNo: document.getElementById('wht-projNo').value,
+    date: document.getElementById('wht-date').value,
+    instructor: document.getElementById('wht-instructor').value,
+    type: document.getElementById('wht-type').value,
+    duration: document.getElementById('wht-duration').value,
+    location: document.getElementById('wht-location').value,
+    time: document.getElementById('wht-time').value,
+    attendees: atts,
+    savedAt: new Date().toLocaleString()
+  };
+  
+  if(!data.date || !data.projName) { alert('⚠️ Please fill Date & Project Name to save.'); return; }
+  let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+  reports.unshift(data);
+  localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
+  alert('✅ Weekly HSE Training report saved! Access it via 📂 Saved Reports tab.');
+}
+  
+function generateWHTPDF() {
+  const atts = [];
+  for(let i=1; i<=20; i++) atts.push({
+    n: document.getElementById(`wht-n${i}`).value,
+    c: document.getElementById(`wht-c${i}`).value,
+    t: document.getElementById(`wht-t${i}`).value,
+    id: document.getElementById(`wht-id${i}`).value
+  });
+
+  const data = {
+    id: Date.now().toString(),
+    docName: "WEEKLY HSE TRAINING",
+    projName: document.getElementById('wht-projName').value,
+    projNo: document.getElementById('wht-projNo').value,
+    date: document.getElementById('wht-date').value,
+    instructor: document.getElementById('wht-instructor').value,
+    type: document.getElementById('wht-type').value,
+    duration: document.getElementById('wht-duration').value,
+    location: document.getElementById('wht-location').value,
+    time: document.getElementById('wht-time').value,
+    attendees: atts,
+    savedAt: new Date().toLocaleString()
+  };
+
+  if(!data.date || !data.projName) { alert('⚠️ Please fill Date & Project Name.'); return; }
+
+  // Save to localStorage
+  let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+  reports.unshift(data);
+  localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
+
+  // Build Exact A4 Sheet HTML
+  const sheetHTML = `
+    <div class="sheet-header">
+      <img src="logo-left.png" class="sheet-logo" alt="L">
+      <div class="sheet-org">
+        <h2>LINK MIDDLE EAST GENERAL CONTRACTING CO</h2>
+        <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+        <p>Tel.: (9712) 658 8504, FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+        <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+      </div>
+      <img src="logo-right.png" class="sheet-logo" alt="R">
+    </div>
+    <div class="sheet-title">WEEKLY HSE TRAINING RECORD</div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px 15px; font-size: 11px; margin: 10px 0; padding: 0 5px;">
+      <div><strong>Project Name:</strong> ${data.projName}</div>
+      <div><strong>Project No.:</strong> ${data.projNo}</div>
+      <div><strong>Instructor Name:</strong> ${data.instructor}</div>
+      <div><strong>Date:</strong> ${data.date}</div>
+      <div><strong>Type of Training:</strong> ${data.type}</div>
+      <div><strong>Duration:</strong> ${data.duration}</div>
+      <div><strong>Location of Training:</strong> ${data.location}</div>
+      <div><strong>Time:</strong> ${data.time}</div>
+    </div>
+    <table class="sheet-table" style="width:100%; margin: 10px 0;">
+      <thead><tr><th style="width:8%">NO</th><th>NAME</th><th>COMPANY</th><th>TITLE</th><th>ID</th></tr></thead>
+      <tbody>
+        ${Array.from({length:20}, (_,i) => `
+          <tr style="height: 28px;">
+            <td>${i+1}.</td><td>${data.attendees[i].n||''}</td><td>${data.attendees[i].c||''}</td><td>${data.attendees[i].t||''}</td><td>${data.attendees[i].id||''}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    <div class="sheet-disclaimer" style="margin-top: 20px;">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+    <div class="sheet-footer" style="margin-top: 10px;">WEEKLY HSE TRAINING &nbsp;|&nbsp; DC-HSE-LME-017</div>
+  `;
+
+  // Generate & Download (Forced A4 dimensions)
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = sheetHTML;
+  tempDiv.style.position = 'fixed';
+  tempDiv.style.left = '-9999px';
+  tempDiv.style.top = '0';
+  tempDiv.style.width = '210mm';        // Exact A4 width
+  tempDiv.style.padding = '15mm';       // Clean margins
+  tempDiv.style.boxSizing = 'border-box';
+  tempDiv.style.background = '#fff';
+  tempDiv.style.fontFamily = 'Times New Roman, serif';
+  document.body.appendChild(tempDiv);
+
+  html2pdf().set({
+    margin: [10, 10, 10, 10],
+    filename: `WHT_${data.projName.replace(/\s+/g,'_')}_${data.date}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging: false },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(tempDiv).save().then(() => {
+    document.body.removeChild(tempDiv);
+    closeWHTModal();
+    clearWHTInput();
+    alert('✅ Report saved & A4 PDF downloaded successfully!');
+  });
+} 
+    function saveOnly() {
+  const data = collectInputData();
+  if(!data.date || !data.project) { alert('⚠️ Please fill Date & Project to save.'); return; }
+  let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+  reports.unshift(data);
+  localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
+  alert('✅ Report saved successfully! You can access it later via 📂 Saved Reports tab.');
+}
+    window.onclick = function(e) { 
+      if(e.target === document.getElementById('tbt-modal')) closeTBTModal();
+      if(e.target === document.getElementById('saved-modal')) closeSavedModal();
+    }
+
+    function collectInputData() {
+      let atts = [];
+      for(let i=1; i<=36; i++) atts.push({ n: document.getElementById(`att-n${i}`).value, t: document.getElementById(`att-t${i}`).value });
+      return {
+        id: Date.now().toString(),
+        docName: "Tool Box Talk",
+        date: document.getElementById('in-date').value,
+        project: document.getElementById('in-project').value,
+        location: document.getElementById('in-location').value,
+        topics: document.getElementById('in-topics').value,
+        superName: document.getElementById('in-super').value,
+        hseName: document.getElementById('in-hse').value,
+        attendees: atts,
+        savedAt: new Date().toLocaleString()
+      };
+    }
+
+    function generateAndDownload() {
+      const data = collectInputData();
+      if(!data.date || !data.project) { alert('⚠️ Please fill Date & Project.'); return; }
+
+      // Build A4 Sheet HTML
+      const sheetHTML = `
+        <div class="sheet-header">
+          <img src="logo-left.png" class="sheet-logo" alt="L">
+          <div class="sheet-org">
+            <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
+            <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+            <p>Tel.: (9712) 658 8504 | FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+            <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+          </div>
+          <img src="logo-right.png" class="sheet-logo" alt="R">
+        </div>
+        <div class="sheet-title">TOOL BOX TALK</div>
+        <div class="sheet-meta">
+          <div><strong>Date:</strong> ${data.date || 'N/A'}</div>
+          <div><strong>Project:</strong> ${data.project || 'N/A'}</div>
+          <div><strong>Location:</strong> ${data.location || 'N/A'}</div>
+        </div>
+        <div style="margin:5px 0; font-size:11px;"><strong>Topics:</strong></div>
+        <div class="sheet-topics">${data.topics.replace(/\n/g, '<br>') || 'N/A'}</div>
+        <table class="sheet-table">
+          <thead><tr><th>SL NO</th><th>NAME</th><th>TITLE</th><th>SL NO</th><th>NAME</th><th>TITLE</th></tr></thead>
+          <tbody>
+            ${Array.from({length:18}, (_,i) => `
+              <tr>
+                <td>${i+1}</td><td>${data.attendees[i].n || ''}</td><td>${data.attendees[i].t || ''}</td>
+                <td>${i+19}</td><td>${data.attendees[i+18].n || ''}</td><td>${data.attendees[i+18].t || ''}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        <div class="sheet-sigs">
+          <div class="sheet-sig"><strong>Site Supervisor / Engineer:</strong><br>${data.superName || '_________________'}</div>
+          <div class="sheet-sig"><strong>HSE Officer:</strong><br>${data.hseName || '_________________'}</div>
+        </div>
+        <div class="sheet-disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+        <div class="sheet-footer">Document Ref: DC-HSE-LME-018</div>
+      `;
+
+      // Save to LocalStorage (Audit Ready)
+      let reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+      reports.unshift(data);
+      localStorage.setItem('lme_tbt_reports', JSON.stringify(reports));
+
+      // Render hidden A4 sheet & download
+      const tempDiv = document.createElement('div');
+      tempDiv.className = 'a4-sheet';
+      tempDiv.innerHTML = sheetHTML;
+      tempDiv.style.display = 'block';
+      document.body.appendChild(tempDiv);
+
+      html2pdf().set({
+        margin: 10, filename: `TBT_${data.project.replace(/\s+/g,'_')}_${data.date}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(tempDiv).save().then(() => {
+        document.body.removeChild(tempDiv);
+        closeTBTModal();
+        clearTBTInput();
+        alert('✅ Report saved & A4 PDF downloaded successfully!');
+      });
+    }
+
+    function renderSaved() {
+      const d = document.getElementById('f-date').value;
+      const p = document.getElementById('f-project').value.toLowerCase();
+      const l = document.getElementById('f-location').value.toLowerCase();
+      const reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+      const dn = document.getElementById('f-docname').value.toLowerCase();
+const filtered = reports.filter(r => 
+  (!d || r.date === d) && 
+  (!p || (r.project||'').toLowerCase().includes(p)) && 
+  (!l || (r.location||'').toLowerCase().includes(l)) &&
+  (!dn || (r.docName||'Tool Box Talk').toLowerCase().includes(dn))
+);
+      const list = document.getElementById('saved-list');
+      if(!filtered.length) { list.innerHTML = '<p style="text-align:center;color:#666;padding:20px;">No matching reports.</p>'; return; }
+      list.innerHTML = filtered.map(r => `
+        <div class="report-item">
+          <div class="report-info"><strong>${r.date || 'N/A'}</strong> | ${r.project || 'N/A'}<br><small>${r.location || ''} | Saved: ${r.savedAt}</small></div>
+          <button class="report-btn" onclick="reDownload('${r.id}')">📥 Download A4 PDF</button>
+        </div>
+      `).join('');
+    }
+
+    function reDownload(id) {
+  const reports = JSON.parse(localStorage.getItem('lme_tbt_reports') || '[]');
+  const data = reports.find(r => r.id === id);
+  if(!data) return;
+
+  let sheetHTML = '';
+  const isWHT = data.docName && data.docName.includes("WEEKLY");
+
+  if(isWHT) {
+    sheetHTML = `
+      <div class="sheet-header">
+        <img src="logo-left.png" class="sheet-logo" alt="L">
+        <div class="sheet-org">
+          <h2>LINK MIDDLE EAST GENERAL CONTRACTING CO</h2>
+          <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+          <p>Tel.: (9712) 658 8504, FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+          <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+        </div>
+        <img src="logo-right.png" class="sheet-logo" alt="R">
+      </div>
+      <div class="sheet-title">WEEKLY HSE TRAINING RECORD</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 6px 15px; font-size: 11px; margin: 10px 0; padding: 0 5px;">
+        <div><strong>Project Name:</strong> ${data.projName}</div>
+        <div><strong>Project No.:</strong> ${data.projNo}</div>
+        <div><strong>Instructor Name:</strong> ${data.instructor}</div>
+        <div><strong>Date:</strong> ${data.date}</div>
+        <div><strong>Type of Training:</strong> ${data.type}</div>
+        <div><strong>Duration:</strong> ${data.duration}</div>
+        <div><strong>Location of Training:</strong> ${data.location}</div>
+        <div><strong>Time:</strong> ${data.time}</div>
+      </div>
+      <table class="sheet-table" style="width:100%; margin: 10px 0;">
+        <thead><tr><th style="width:8%">NO</th><th>NAME</th><th>COMPANY</th><th>TITLE</th><th>ID</th></tr></thead>
+        <tbody>
+          ${Array.from({length:20}, (_,i) => `
+            <tr style="height: 28px;">
+              <td>${i+1}.</td><td>${data.attendees[i]?.n||''}</td><td>${data.attendees[i]?.c||''}</td><td>${data.attendees[i]?.t||''}</td><td>${data.attendees[i]?.id||''}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <div class="sheet-disclaimer" style="margin-top: 20px;">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+      <div class="sheet-footer" style="margin-top: 10px;">WEEKLY HSE TRAINING &nbsp;|&nbsp; DC-HSE-LME-017</div>
+    `;
+  } else {
+    sheetHTML = `
+      <div class="sheet-header">
+        <img src="logo-left.png" class="sheet-logo" alt="L">
+        <div class="sheet-org">
+          <h2>LINK MIDDLE EAST GENERAL CONTRACTING COMPANY</h2>
+          <p>P.O. Box: 51070, ABU DHABI - U.A.E.</p>
+          <p>Tel.: (9712) 658 8504 | FAX: (9712) 658 8505 | E-mail: lmedubai@eim.ae</p>
+          <p>H.O: P.O. Box:16846 | TEL.: (9714) 881 6750 | FAX: (9714) 881 6250</p>
+        </div>
+        <img src="logo-right.png" class="sheet-logo" alt="R">
+      </div>
+      <div class="sheet-title">TOOL BOX TALK</div>
+      <div class="sheet-meta"><div><strong>Date:</strong> ${data.date}</div><div><strong>Project:</strong> ${data.project}</div><div><strong>Location:</strong> ${data.location}</div></div>
+      <div style="margin:5px 0; font-size:11px;"><strong>Topics:</strong></div>
+      <div class="sheet-topics">${data.topics.replace(/\n/g,'<br>')}</div>
+      <table class="sheet-table"><thead><tr><th>SL NO</th><th>NAME</th><th>TITLE</th><th>SL NO</th><th>NAME</th><th>TITLE</th></tr></thead><tbody>
+        ${Array.from({length:18},(_,i)=>`<tr><td>${i+1}</td><td>${data.attendees[i]?.n||''}</td><td>${data.attendees[i]?.t||''}</td><td>${i+19}</td><td>${data.attendees[i+18]?.n||''}</td><td>${data.attendees[i+18]?.t||''}</td></tr>`).join('')}
+      </tbody></table>
+      <div class="sheet-sigs"><div class="sheet-sig"><strong>Site Supervisor / Engineer:</strong><br>${data.superName}</div><div class="sheet-sig"><strong>HSE Officer:</strong><br>${data.hseName}</div></div>
+      <div class="sheet-disclaimer">This is a system-generated digital document. No physical signature is required, and it is deemed valid as per digital documentation practices.</div>
+      <div class="sheet-footer">Document Ref: DC-HSE-LME-018</div>
+    `;
+  }
+
+  const temp = document.createElement('div');
+  temp.className='a4-sheet';
+  temp.innerHTML=sheetHTML;
+  temp.style.position = 'fixed'; temp.style.left = '-9999px'; temp.style.top = '0';
+  temp.style.width = '210mm'; temp.style.padding = '15mm'; temp.style.boxSizing = 'border-box'; temp.style.background = '#fff';
+  document.body.appendChild(temp);
+
+  html2pdf().set({margin: [10,10,10,10], filename:`${data.docName.replace(/\s+/g,'_')}_${data.date}.pdf`, image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2,useCORS:true}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(temp).save().then(()=>document.body.removeChild(temp));
+}
+
+    function renderDocs() {
+      const q = searchInput.value.toLowerCase();
+      const filtered = docs.filter(d => (activeCat === 'all' || d.cat === activeCat) && d.name.toLowerCase().includes(q));
+      grid.innerHTML = filtered.length ? filtered.map(d => {
+        let action = '';
+        if(d.type === 'form') action = `<button class="btn-view" onclick="openTBTModal()">📝 Fill Form</button>`;
+else if(d.type === 'wht_form') action = `<button class="btn-view" onclick="openWHTModal()">📝 Fill Form</button>`;
+else if(d.pdf && d.pdf2) action = `<a href="${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a><a href="${d.pdf2}" target="_blank" class="btn-view">📥 Open Sticker</a>`;
+else if(d.pdf) action = `<a href="${d.pdf}" target="_blank" class="btn-view">Open Form</a>`;
+else action = `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
+        return `<div class="doc-card"><div class="doc-badge">📄 FORM</div><div class="doc-name">${d.name}</div>${action}</div>`;
+      }).join('') : '<div class="no-results">🔍 No documents found</div>';
+    }
+
+    tabs.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(btn.dataset.cat === 'saved') return;
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        activeCat = btn.dataset.cat;
+        renderDocs();
+      });
+    });
+    searchInput.addEventListener('input', renderDocs);
+    renderDocs();
+  </script>
+</body>
+</html>
