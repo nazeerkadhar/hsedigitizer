@@ -1,23 +1,24 @@
 'use client'
 
 import { useEffect } from 'react'
-import { createClient } from '../../../../utils/supabase/client'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 
 export default function HseFormsPage() {
   const router = useRouter()
-  const supabase = createClient()
 
   useEffect(() => {
+    const supabase = createClient()
     supabase.auth.getSession().then((response) => {
       const session = response.data?.session
       if (!session) {
         router.replace('/login')
       }
     })
-  }, [router, supabase.auth])
+  }, [router])
 
   const handleSignOut = async () => {
+    const supabase = createClient()
     await supabase.auth.signOut()
     window.location.href = '/login'
   }
