@@ -1,25 +1,25 @@
 'use client'
 
 import { useEffect } from 'react'
-import { supabase } from '@/lib/supabaseClient'
+import { createClient } from '../../../../utils/supabase/client'
 import { useRouter } from 'next/navigation'
 
 export default function HseFormsPage() {
   const router = useRouter()
+  const supabase = createClient()
 
   useEffect(() => {
-    // Check auth status on mount - simple approach
     supabase.auth.getSession().then((response) => {
       const session = response.data?.session
       if (!session) {
-        router.replace('/')
+        router.replace('/login')
       }
     })
-  }, [router])
+  }, [router, supabase.auth])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
-    window.location.href = '/'
+    window.location.href = '/login'
   }
 
   return (
@@ -41,7 +41,6 @@ export default function HseFormsPage() {
             Sign Out
           </button>
         </div>
-
         <div className="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700">
           ✅ Authentication Successful. Role: HSE Officer.
         </div>
