@@ -31,7 +31,7 @@ export async function updateSession(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  if (pathname.startsWith('/login') || pathname.startsWith('/auth') || pathname === '/_next' ) {
+  if (pathname.startsWith('/login') || pathname.startsWith('/auth')) {
     return supabaseResponse
   }
 
