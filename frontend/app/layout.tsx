@@ -1,69 +1,47 @@
-'use client'
+import { createServerClient } from '@supabase/ssr'
+import { cookies, headers } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-import './globals.css'
-import { useEffect, useState, createContext, useContext } from 'react'
-import { supabase } from '@/lib/supabaseClient'
-import { User } from '@supabase/supabase-js'
-import { useRouter } from 'next/navigation'
-
-// Inline Auth Context (no separate file needed)
-type AuthContextType = {
-  user: User | null
-  loading: boolean
-  signOut: () => Promise<void>
-}
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
-
-function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-      if (!session) router.push('/')
-    })
-    return () => subscription.unsubscribe()
-  }, [router])
-
-  const signOut = async () => {
-    await supabase.auth.signOut()
-    router.push('/')
-  }
-
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-gray-500">Loading...</div>
-
-  return (
-    <AuthContext.Provider value={{ user, loading, signOut }}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) throw new Error('useAuth must be used within AuthProvider')
-  return context
-}
-
-// Main Layout
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const headersList = await headers()
+  const pathname = headersList.get('next-url')?.replace(/^https?:\/\/[^/]+/, '') || '/'
+
+  // Allow /login to render without redirecting to itself
+  if (pathname === '/login') {
+    return (
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    )
+  }
+
+  const cookieStore = await cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value
+        },
+      },
+    }
+  )
+
+  // FIXED: Correct destructuring syntax (resolves all 6 errors)
+  const { data: { session } } = await supabase.auth.getSession()
+
+  if (!session) {
+    redirect('/login')
+  }
+
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-50">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
