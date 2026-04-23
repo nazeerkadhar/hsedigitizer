@@ -65,11 +65,17 @@
     data.files.forEach(f => {
       const date = new Date(f.created_at).toLocaleString();
       const path = 'history/' + docName + '/' + f.name;
-      html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:8px;">
-        <span style="font-size:13px;color:#333;">${date}</span>
-        <div style="display:flex;gap:6px;">
-          <a href="${f.url}" target="_blank" style="background:#e67e22;color:#fff;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:12px;">Open</a>
-          <button onclick="deleteFile('${path}', this)" style="background:#e74c3c;color:#fff;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:12px;">🗑️ Delete</button>
+      const fileName = f.name.replace(/^[^_]+_/, '');
+      html += `<div style="padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#333;">📄 ${fileName}</div>
+            <div style="font-size:11px;color:#888;margin-top:2px;">Uploaded: ${date}</div>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <a href="${f.url}" target="_blank" style="background:#e67e22;color:#fff;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:12px;">Open</a>
+            <button onclick="deleteFile('${path}', this)" style="background:#e74c3c;color:#fff;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:12px;">🗑️ Delete</button>
+          </div>
         </div>
       </div>`;
     });
@@ -365,6 +371,7 @@
     const tabs = document.querySelectorAll('.tab');
     const searchInput = document.getElementById('search');
     let activeCat = 'all';
+    const isAdmin = document.cookie.includes('admin') || window.__isAdmin === true;
 
     // Generate clean input fields for 36 attendees (Name + Title only)
     const attContainer = document.getElementById('att-inputs');
@@ -726,8 +733,8 @@ const filtered = reports.filter(r =>
         let action = '';
         if(d.type === 'form') action = `<button class="btn-view" onclick="openTBTModal()">📝 Fill Form</button>`;
 else if(d.type === 'wht_form') action = `<button class="btn-view" onclick="openWHTModal()">📝 Fill Form</button>`;
-else if(d.pdf && d.pdf2) action = `<a href="/api/document?file=${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a><a href="/api/document?file=${d.pdf2}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Sticker</a><div style="display:flex;gap:6px;margin-top:6px;"><label class="btn-view" style="background:#27ae60;cursor:pointer;font-size:11px;">📤 Upload<input type="file" accept=".pdf" style="display:none" onchange="uploadDoc(this,'${d.pdf}')"></label><button class="btn-view" style="background:#9b59b6;font-size:11px;" onclick="showHistory('${d.pdf}')">📋 History</button></div>`;
-else if(d.pdf) action = `<a href="/api/document?file=${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">Open Form</a><div style="display:flex;gap:6px;margin-top:6px;"><label class="btn-view" style="background:#27ae60;cursor:pointer;font-size:11px;">📤 Upload<input type="file" accept=".pdf" style="display:none" onchange="uploadDoc(this,'${d.pdf}')"></label><button class="btn-view" style="background:#9b59b6;font-size:11px;" onclick="showHistory('${d.pdf}')">📋 History</button><button class="btn-view" style="background:#e74c3c;font-size:11px;" onclick="deleteCurrentFile('${d.pdf}')">🗑️ Delete</button></div>`;
+else if(d.pdf && d.pdf2) action = `<a href="/api/document?file=${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a><a href="/api/document?file=${d.pdf2}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Sticker</a>${isAdmin ? `<div style="display:flex;gap:6px;margin-top:6px;"><label class="btn-view" style="background:#27ae60;cursor:pointer;font-size:11px;">📤 Upload<input type="file" accept=".pdf" style="display:none" onchange="uploadDoc(this,'${d.pdf}')"></label><button class="btn-view" style="background:#9b59b6;font-size:11px;" onclick="showHistory('${d.pdf}')">📋 History</button></div>` : ''}`;
+else if(d.pdf) action = `<a href="/api/document?file=${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">Open Form</a>${isAdmin ? `<div style="display:flex;gap:6px;margin-top:6px;"><label class="btn-view" style="background:#27ae60;cursor:pointer;font-size:11px;">📤 Upload<input type="file" accept=".pdf" style="display:none" onchange="uploadDoc(this,'${d.pdf}')"></label><button class="btn-view" style="background:#9b59b6;font-size:11px;" onclick="showHistory('${d.pdf}')">📋 History</button></div>` : ''}`;
 else action = `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
         return `<div class="doc-card"><div class="doc-badge">📄 FORM</div><div class="doc-name">${d.name}</div>${action}</div>`;
       }).join('') : '<div class="no-results">🔍 No documents found</div>';
