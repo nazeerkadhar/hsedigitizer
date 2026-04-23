@@ -696,8 +696,8 @@ const filtered = reports.filter(r =>
         let action = '';
         if(d.type === 'form') action = `<button class="btn-view" onclick="openTBTModal()">📝 Fill Form</button>`;
 else if(d.type === 'wht_form') action = `<button class="btn-view" onclick="openWHTModal()">📝 Fill Form</button>`;
-else if(d.pdf && d.pdf2) action = `<a href="/api/document?file=${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a><a href="/api/document?file=${d.pdf2}" target="_blank" class="btn-view">📥 Open Sticker</a>`;
-else if(d.pdf) action = `<a href="/api/document?file=${d.pdf}" target="_blank" class="btn-view">Open Form</a>`;
+else if(d.pdf && d.pdf2) action = `<a href="/api/document?file=${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Slides</a><a href="/api/document?file=${d.pdf2}" target="_blank" class="btn-view" style="margin-bottom:6px;">📥 Open Sticker</a><div style="display:flex;gap:6px;margin-top:6px;"><label class="btn-view" style="background:#27ae60;cursor:pointer;font-size:11px;">📤 Upload<input type="file" accept=".pdf" style="display:none" onchange="uploadDoc(this,'${d.pdf}')"></label><button class="btn-view" style="background:#9b59b6;font-size:11px;" onclick="showHistory('${d.pdf}')">📋 History</button></div>`;
+else if(d.pdf) action = `<a href="/api/document?file=${d.pdf}" target="_blank" class="btn-view" style="margin-bottom:6px;">Open Form</a><div style="display:flex;gap:6px;margin-top:6px;"><label class="btn-view" style="background:#27ae60;cursor:pointer;font-size:11px;">📤 Upload<input type="file" accept=".pdf" style="display:none" onchange="uploadDoc(this,'${d.pdf}')"></label><button class="btn-view" style="background:#9b59b6;font-size:11px;" onclick="showHistory('${d.pdf}')">📋 History</button></div>`;
 else action = `<button class="btn-view" onclick="alert('Opening: ${d.name}\\n(Form connection ready)')">Open Form</button>`;
         return `<div class="doc-card"><div class="doc-badge">📄 FORM</div><div class="doc-name">${d.name}</div>${action}</div>`;
       }).join('') : '<div class="no-results">🔍 No documents found</div>';
