@@ -1,12 +1,25 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function PortalPage() {
+  const initialized = useRef(false)
+
   useEffect(() => {
-    const scripts = document.querySelectorAll('#portal-content script')
+    if (initialized.current) return
+    initialized.current = true
+    
+    const container = document.getElementById('portal-content')
+    if (!container) return
+    
+    const scripts = container.querySelectorAll('script')
     scripts.forEach(oldScript => {
       const newScript = document.createElement('script')
-      newScript.textContent = oldScript.textContent
+      if (oldScript.src) {
+        newScript.src = oldScript.src
+        newScript.async = false
+      } else {
+        newScript.textContent = oldScript.textContent
+      }
       document.body.appendChild(newScript)
     })
   }, [])
