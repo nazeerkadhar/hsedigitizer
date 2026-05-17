@@ -10,9 +10,7 @@ export default function PortalPage() {
     const supabase = createClient()
     supabase.auth.getSession().then((response) => {
       const session = response.data?.session
-      if (!session) {
-        router.replace('/login')
-      }
+      if (!session) router.replace('/login')
     })
   }, [router])
 
@@ -22,152 +20,30 @@ export default function PortalPage() {
     window.location.href = '/login'
   }
 
-  const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>NSS HSE Portal - Dashboard</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <style>
-    :root {
-      --bg: linear-gradient(180deg, #0B5E3F 0%, #00B050 100%);
-      --card: #1a4d2e;
-      --card-hover: #2d7a52;
-      --primary: #D32F2F;
-      --primary-dark: #B71C1C;
-      --primary-light: #E53935;
-      --success: #00B050;
-      --danger: #D32F2F;
-      --purple: #7B1FA2;
-      --text: #ecf0f1;
-      --muted: #95a5a6;
-      --footer-text: #7f8c8d;
-      --border: #2d7a52;
-      --shadow: 0 4px 12px rgba(0,0,0,0.3);
-      --radius: 12px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; padding-bottom: 30px; }
-    
-    .header { background: linear-gradient(135deg, #0B5E3F 0%, #1a4d2e 100%); color: #fff; padding: 10px 8px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-    .logo-wrap { width: 40px; height: 40px; background: #ffffff; border-radius: 8px; padding: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid var(--primary); box-shadow: 0 3px 8px rgba(0,0,0,0.4); }
-    .logo-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; filter: contrast(1.05) brightness(1.02); }
-    .org-center { flex: 1; text-align: center; padding: 0 4px; min-width: 0; }
-    .org-name { font-size: 11px; font-weight: 800; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.15px; line-height: 1.15; color: #fff; overflow-wrap: break-word; word-break: break-word; }
-    .org-line { font-size: 8.5px; color: #bdc3c7; margin: 1px 0; line-height: 1.2; overflow-wrap: break-word; }
-    .portal-badge { text-align: center; font-size: 11px; font-weight: 700; color: var(--primary); background: var(--card); padding: 6px 14px; margin: 10px auto 0; max-width: 92%; border-radius: 20px; letter-spacing: 0.6px; box-shadow: var(--shadow); display: inline-block; border: 1.5px solid var(--primary-light); }
-
-    @media (min-width: 600px) { .header { padding: 12px 16px; gap: 14px; } .logo-wrap { width: 55px; height: 55px; padding: 5px; border-radius: 10px; } .org-name { font-size: 13px; letter-spacing: 0.3px; line-height: 1.2; } .org-line { font-size: 9.5px; } }
-    @media (min-width: 850px) { .header { padding: 14px 20px; gap: 18px; } .logo-wrap { width: 65px; height: 65px; padding: 6px; border-radius: 12px; } .org-name { font-size: 15px; } .org-line { font-size: 10.5px; } }
-
-    .search-wrap { max-width: 1200px; margin: 14px auto 0; padding: 0 14px; }
-    .search-box { width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 14px; outline: none; background: #2d7a52; color: var(--text); box-shadow: var(--shadow); transition: border 0.2s, box-shadow 0.2s; }
-    .search-box::placeholder { color: var(--muted); }
-    .search-box:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(211,47,47,0.3); }
-
-    .tabs { max-width: 1200px; margin: 14px auto 0; padding: 0 14px; display: flex; gap: 7px; overflow-x: auto; scrollbar-width: none; }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab { padding: 9px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; white-space: nowrap; transition: all 0.2s; color: var(--muted); min-height: 40px; display: flex; align-items: center; }
-    .tab:hover { background: var(--card-hover); }
-    .tab:active { transform: scale(0.97); }
-    .tab.active { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-color: transparent; box-shadow: 0 3px 10px rgba(211,47,47,0.4); }
-
-    .container { max-width: 1200px; margin: 16px auto; padding: 0 14px; }
-    .doc-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .doc-card { background: var(--card); border-radius: var(--radius); padding: 14px; border: 2px solid var(--border); box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
-    .doc-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary) 0%, var(--purple) 100%); }
-    .doc-card:hover { transform: translateY(-2px); background: var(--card-hover); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
-    .doc-badge { font-size: 9px; font-weight: 700; color: var(--primary); background: rgba(211,47,47,0.15); padding: 3px 8px; border-radius: 10px; display: inline-block; margin-bottom: 5px; border: 1px solid var(--primary-light); }
-    .doc-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 8px; }
-    .btn-view { width: 100%; padding: 11px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border: none; border-radius: 9px; cursor: pointer; font-weight: 600; font-size: 12.5px; min-height: 40px; transition: opacity 0.2s; box-shadow: 0 4px 12px rgba(211,47,47,0.3); text-decoration: none; display: inline-flex; justify-content: center; align-items: center; text-align: center; box-sizing: border-box; }
-    .btn-view:hover { opacity: 0.92; }
-    .no-results { grid-column: 1 / -1; text-align: center; padding: 28px 15px; color: var(--muted); background: var(--card); border-radius: var(--radius); border: 1px dashed var(--border); }
-    .footer { text-align: center; padding: 18px 15px; font-size: 10.5px; color: var(--footer-text); margin-top: 22px; border-top: 1px solid var(--border); background: var(--card); max-width: 1200px; margin-left: auto; margin-right: auto; border-radius: var(--radius) var(--radius) 0 0; }
-    
-    @media (min-width: 480px) { .doc-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 768px) { .doc-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (min-width: 1024px) { .doc-grid { grid-template-columns: repeat(4, 1fr); } }
-  </style>
-</head>
-<body>
-  <header class="header">
-    <div class="logo-wrap"><span style="font-size:24px; font-weight:bold; color:#00B050;">N</span></div>
-    <div class="org-center">
-      <div class="org-name">NSS HSE PORTAL</div>
-      <div class="org-line">Cloud-Native HSE Management Platform</div>
-      <div class="org-line">Email: info@nss-hse.ae</div>
-      <div class="org-line">© 2025 NSS HSE Portal | UAE</div>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-900 to-green-700 p-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-start mb-8">
+          <div>
+            <h1 className="text-4xl font-bold text-white">NSS HSE Portal</h1>
+            <p className="text-lg text-green-100 mt-2">Cloud-Native HSE Management</p>
+          </div>
+          <button onClick={handleSignOut} className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold">
+            Sign Out
+          </button>
+        </div>
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Welcome to NSS HSE Portal</h2>
+          <p className="text-gray-600 mb-6">Cloud-Native HSE Management Platform for UAE Construction & O&G</p>
+          <div className="p-6 bg-green-50 border-2 border-green-200 rounded-lg text-green-800">
+            <p className="font-semibold">✅ NSS HSE Portal Ready</p>
+            <p>Phase 1 Development in Progress - Week 1 Complete</p>
+          </div>
+        </div>
+        <div className="mt-8 text-center text-green-100 text-sm">
+          <p>© 2025 NSS HSE Portal</p>
+        </div>
+      </div>
     </div>
-    <div class="logo-wrap"><span style="font-size:24px; font-weight:bold; color:#D32F2F;">S</span></div>
-  </header>
-  <div style="text-align:center"><div class="portal-badge">📑 NSS HSE PORTAL</div></div>
-  <div class="search-wrap"><input type="text" id="search" class="search-box" placeholder="🔍 Search documents..."></div>
-  <nav class="tabs" id="tabs">
-    <button class="tab active" data-cat="all">📋 All</button>
-    <button class="tab" data-cat="policy">📜 Policies</button>
-    <button class="tab" data-cat="inspection">🔍 Inspections</button>
-    <button class="tab" data-cat="training">🎓 Training</button>
-    <button class="tab" data-cat="incident">🚨 Incidents</button>
-    <button class="tab" data-cat="report">📊 Reports</button>
-    <button class="tab" data-cat="procedure">📁 Plans</button>
-    <button class="tab" data-cat="saved" onclick="openSavedModal()">📂 Saved Reports</button>
-  </nav>
-  <main class="container"><div id="doc-grid" class="doc-grid"></div></main>
-  <footer class="footer">© 2025 NSS HSE Portal | Cloud-Native HSE Management Platform</footer>
-
-  <script>
-    const docs = [
-      { name: "IMS POLICY from IMS MANUAL", cat: "policy", pdf: null },
-      { name: "ZERO HARM PHILOSOPHY", cat: "policy", pdf: "zero-harm-philosophy.pdf" },
-      { name: "Roles and responsibilities", cat: "policy", pdf: "DC-HSE-LME-03-Roles-and-responsblities.pdf" },
-      { name: "Mandatory PPE", cat: "policy", pdf: "DC-HSE-LME-028-Mandatory-PPE.pdf" },
-      { name: "12 GOLDEN RULES", cat: "policy", pdf: "12 GOLDEN RULES.pdf" },
-      { name: "NSS ISO CERTIFICATIONS", cat: "policy", pdf: null },
-      { name: "EMERGENCY RESPONSE PROCEDURE", cat: "policy", pdf: "DC-HSE-LME-029.EMERGENCY RESPONSE PROCEDURE.pdf" },
-      { name: "EMERGENCY RESPONSE TEAM", cat: "policy", pdf: "DC-HSE-LME-030-EMERGENCY-RESPONSE-TEAM.pdf" },
-      { name: "Emergency Evacuation Drill Report Form", cat: "policy", pdf: null },
-      { name: "Reporting Procedures", cat: "policy", pdf: "DC-HSE-LME-61-Reporting-Procedures.pdf" },
-      { name: "EVALUATION OF LEGAL COMPLIANCE", cat: "policy", pdf: "DC-HSE-LME-63-EVALUATION-OF-LEGAL-COMPLIANCE.pdf" },
-      { name: "Plant & Vehicle inspection Checklist", cat: "inspection", pdf: null },
-      { name: "Fire Extinguisher Inspection Register", cat: "inspection", pdf: null },
-      { name: "Monthly Power Tools Inspection Log", cat: "inspection", pdf: null },
-      { name: "Housekeeping checklist", cat: "inspection", pdf: null },
-      { name: "Weekly Bus Inspection Checklist", cat: "inspection", pdf: null },
-      { name: "Safety in Heat Checklist", cat: "inspection", pdf: null },
-      { name: "DAILY PRE-COMMENCEMENT EXCAVATION CHECKLIST", cat: "inspection", pdf: null },
-      { name: "Monthly Lifting Gear Inspection Report Form", cat: "inspection", pdf: null },
-      { name: "DAILY HSE INSPECTION REPORT", cat: "inspection", pdf: null },
-      { name: "HSE Monthly Audit Form", cat: "inspection", pdf: null },
-      { name: "Quarterly Inspection Color Code", cat: "inspection", pdf: null },
-      { name: "CLEANING LOG SHEET", cat: "inspection", pdf: null },
-      { name: "WORKING AT HEIGHT", cat: "inspection", pdf: null },
-      { name: "HSE INSPECTION OFFICE & ACCOMMODATION CHECKLIST", cat: "inspection", pdf: null },
-      { name: "GENERATOR MAINTENANCE RECORD", cat: "inspection", pdf: null },
-      { name: "Battery operated Tools monthly Inspection Log", cat: "inspection", pdf: null },
-      { name: "Manlift Inspection Checklist", cat: "inspection", pdf: null },
-      { name: "Monthly HSE coordination meeting attendance sheet", cat: "training", pdf: null },
-      { name: "HSE INDUCTION ATTENDANCE SHEET", cat: "training", pdf: null },
-      { name: "MSRA communication Record", cat: "training", pdf: null },
-      { name: "WEEKLY HSE TRAINING", cat: "training", type: "wht_form" },
-      { name: "Tool Box Talk", cat: "training", type: "form" },
-      { name: "STARRT Briefing", cat: "training", pdf: null },
-      { name: "Confined Space Entry Log sheet", cat: "training", pdf: null },
-      { name: "WEEKLY HSE & TBT TRAINING RECORDS", cat: "training", pdf: null },
-      { name: "HEAT ILLNESS TBT", cat: "training", pdf: null },
-      { name: "HSE TRAINING MATRIX", cat: "training", pdf: null },
-      { name: "Under Ground & Over Head Services", cat: "training", pdf: null },
-      { name: "NSS HSE INDUCTION", cat: "training", pdf: "DC-HSE-LME-053-LME-HSE-INDUCTION-SLIDES.pdf", pdf2: "DC-HSE-LME-62-induction-sticker.pdf" },
-      { name: "First Aid Report Form", cat: "incident", pdf: null },
-      { name: "WARNING LETTER", cat: "incident", pdf: null },
-      { name: "HSE Observation Summary", cat: "incident", pdf: null },
-      { name: "Near miss Register", cat: "incident", pdf: null },
-      { name: "ACCIDENT OR INCIDENT REPORT", cat: "incident", pdf: null },
-      { name: "HSE CAMPAIGN REPORT", cat: "incident", pdf: null },
-      { name: "LEADERSHIP TOUR", cat: "incident", pdf: null },
-      { name: "Weekly HSE statistics report", cat: "report", pdf: null },
-      { name: "MONTHLY HSE REPORT", cat: "report", pdf: null },
-      { name: "ANNUAL HSE STATISTICS REPORT", cat: "report", pdf: null },
-      { name: "WASTE MANAGEMENT CHART", cat: "report", pdf: null },
-      { name: "internal Monthly KPI format", cat: "report", pdf: null },
-      { name: "Man-Machine Interface",
+  )
+}
