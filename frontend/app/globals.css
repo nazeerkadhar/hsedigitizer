@@ -1,26 +1,126 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: linear-gradient(180deg, #0B5E3F 0%, #00B050 100%);
+  --card: #1a4d2e;
+  --card-hover: #2d7a52;
+  --primary: #D32F2F;
+  --primary-dark: #B71C1C;
+  --primary-light: #E53935;
+  --success: #00B050;
+  --danger: #D32F2F;
+  --purple: #7B1FA2;
+  --text: #ecf0f1;
+  --muted: #95a5a6;
+  --footer-text: #7f8c8d;
+  --border: #2d7a52;
+  --shadow: 0 4px 12px rgba(0,0,0,0.3);
+  --radius: 12px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* NSS Custom Styles */
+.nss-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.nss-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.nss-btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.nss-btn-primary:hover {
+  opacity: 0.9;
+}
+
+.nss-btn-success {
+  background: var(--success);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.nss-btn-success:hover {
+  opacity: 0.9;
+}
+
+.nss-heading {
+  color: var(--text);
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.nss-text-muted {
+  color: var(--muted);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .nss-container {
+    padding: 0 0.75rem;
+  }
 }
