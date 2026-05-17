@@ -1,0 +1,10 @@
+[33m65edc6d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mnss-hse-portal[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Revamp HSE Officer Dashboard layout and content
+[33m14dcde8[m Update fmt.Println message from 'Hello' to 'Goodbye'
+[33m781f8f0[m Update page.tsx
+[33m139014e[m Update globals.css
+[33m5874f46[m Fix portal serving, admin check, login text color
+[33m60e9ee3[m Fix portal serving, admin check, login text color
+[33madc502c[m Fix portal scripts not running after re-login
+[33m4c3fe9e[m Admin only upload/delete, fix history display
+[33md834ee2[m Add delete buttons for files and history
+[33mb5ec220[m Fix upload and history buttons in document cards
