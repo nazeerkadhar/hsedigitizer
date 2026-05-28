@@ -3,7 +3,6 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
-
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -25,13 +24,11 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
+  const { data: { user } } = await supabase.auth.getUser()
   const { pathname } = request.nextUrl
 
-  if (pathname.startsWith('/login') || pathname.startsWith('/auth') || pathname.startsWith('/api/portal')) {
+  // Whitelist routes that don't require authentication
+  if (pathname.startsWith('/login') || pathname.startsWith('/auth') || pathname.startsWith('/api/portal') || pathname.startsWith('/tra') || pathname.startsWith('/incidents') || pathname === '/') {
     return supabaseResponse
   }
 
