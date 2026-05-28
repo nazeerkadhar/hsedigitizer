@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { supabase } from '@/lib/supabaseClient'
 
 const RISK_MATRIX = {
   'High': { 'High': 'Extreme', 'Medium': 'High', 'Low': 'Medium' },
@@ -16,6 +17,7 @@ export default function TRAForm() {
   })
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -25,15 +27,45 @@ export default function TRAForm() {
     return RISK_MATRIX[formData.probability as keyof typeof RISK_MATRIX]?.[formData.severity as keyof typeof RISK_MATRIX['High']] || 'Medium'
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!formData.project_name || !formData.activity_description) {
-      setError('All fields required')
-      return
+    setError('')
+    setSuccess('')
+    setLoading(true)
+
+    try {
+      if (!formData.project_name || !formData.activity_description) {
+        throw new Error('All fields required')
+      }
+
+      const risk_level = calculateRisk()
+
+      const { error: dbError } = await supabase
+        .from('tras')
+        .insert([{
+          project_name: formData.project_name,
+          activity_description: formData.activity_description,
+          probability: formData.probability,
+          severity: formData.severity,
+          risk_level: risk_level,
+          status: 'Draft',
+          user_id: '00000000-0000-0000-0000-000000000000'
+        }])
+
+      if (dbError) throw dbError
+
+      setSuccess(`✅ TRA Saved: ${formData.project_name} - Risk: ${risk_level}`)
+      
+      setTimeout(() => {
+        setFormData({ project_name: '', activity_description: '', probability: 'Medium', severity: 'Medium' })
+        setSuccess('')
+      }, 2000)
+
+    } catch (err: any) {
+      setError(err.message || 'Failed to save TRA')
+    } finally {
+      setLoading(false)
     }
-    setSuccess(`✅ TRA Created: ${formData.project_name} - Risk: ${calculateRisk()}`)
-    console.log('TRA Data:', { ...formData, risk_level: calculateRisk() })
-    setTimeout(() => setSuccess(''), 3000)
   }
 
   return (
@@ -41,7 +73,7 @@ export default function TRAForm() {
       <div className="max-w-3xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Create TRA</h1>
-          <p className="text-gray-600 mb-6">Task Risk Assessment Form</p>
+          <p className="text-gray-600 mb-6">Task Risk Assessment Form - Data saved to database</p>
 
           {error && <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6"><p className="text-red-700">{error}</p></div>}
           {success && <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-6"><p className="text-green-700">{success}</p></div>}
@@ -81,8 +113,8 @@ export default function TRAForm() {
               <p className="text-2xl font-bold text-blue-600">{calculateRisk()}</p>
             </div>
 
-            <button type="submit" className="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:from-green-700 hover:to-green-800">
-              📋 Create TRA
+            <button type="submit" disabled={loading} className="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:from-green-700 hover:to-green-800 disabled:opacity-50">
+              {loading ? '⏳ Saving...' : '📋 Create TRA'}
             </button>
           </form>
         </div>
