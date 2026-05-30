@@ -14,7 +14,7 @@ interface TRA {
 }
 
 export default function TRAListPage() {
-  const [tras, setTras] = useState([])
+  const [tras, setTras] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 

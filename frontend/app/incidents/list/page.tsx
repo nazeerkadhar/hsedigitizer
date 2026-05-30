@@ -15,7 +15,7 @@ interface Incident {
 }
 
 export default function IncidentsListPage() {
-  const [incidents, setIncidents] = useState([])
+  const [incidents, setIncidents] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
