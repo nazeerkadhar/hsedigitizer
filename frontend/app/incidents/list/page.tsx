@@ -2,18 +2,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 
-interface Incident {
-  id: string
-  incident_type: string
-  location: string
-  date: string
-  time: string
-  victim_name: string | null
-  description: string
-  status: string
-  created_at: string
-}
-
 export default function IncidentsListPage() {
   const [incidents, setIncidents] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -32,14 +20,14 @@ export default function IncidentsListPage() {
         .order('created_at', { ascending: false })
       if (fetchError) throw fetchError
       setIncidents(data || [])
-    } catch (err) {
-      setError(err.message || 'Failed to fetch incidents')
+    } catch (err: any) {
+      setError(err?.message || 'Failed to fetch incidents')
     } finally {
       setLoading(false)
     }
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-AE')
   }
 

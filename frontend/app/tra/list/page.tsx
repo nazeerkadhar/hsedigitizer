@@ -2,17 +2,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 
-interface TRA {
-  id: string
-  project_name: string
-  activity_description: string
-  probability: string
-  severity: string
-  risk_level: string
-  status: string
-  created_at: string
-}
-
 export default function TRAListPage() {
   const [tras, setTras] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -31,18 +20,14 @@ export default function TRAListPage() {
         .order('created_at', { ascending: false })
       if (fetchError) throw fetchError
       setTras(data || [])
-    } catch (err) {
-      setError(err.message || 'Failed to fetch TRAs')
+    } catch (err: any) {
+      setError(err?.message || 'Failed to fetch TRAs')
     } finally {
       setLoading(false)
     }
   }
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-AE')
-  }
-
-  const getRiskColor = (risk) => {
+  const getRiskColor = (risk: string) => {
     switch(risk) {
       case 'Extreme': return 'bg-red-600'
       case 'High': return 'bg-orange-600'
