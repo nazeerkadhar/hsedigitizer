@@ -4,7 +4,7 @@ export default function HomePage() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8">
           <div className="flex items-center gap-4 mb-6">
-            <img src="/ess-logo.jpg" alt="ESS Logo" className="w-16 h-16 object-contain"/>
+            <img src="/ESS-logo.jpg" alt="ESS Logo" className="w-16 h-16 object-contain"/>
             <div>
               <h1 className="text-4xl font-bold text-gray-900">HSE DIGITIZER</h1>
               <p className="text-sm text-gray-600">A Product of EASY SAFETY SOLUTIONS By Nazeer</p>
