@@ -35,6 +35,24 @@ export default function TestIncidentForm() {
     setPhotoPreview(prev => prev.filter((_, i) => i !== index))
   }
 
+  const sendNotificationEmail = async (incidentData: any) => {
+    try {
+      await fetch('/api/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: 'hse@easysafety.ae',
+          subject: `URGENT: ${incidentData.incident_type} at ${incidentData.location}`,
+          incidentType: incidentData.incident_type,
+          location: incidentData.location,
+          incident: incidentData.description,
+        }),
+      })
+    } catch (err) {
+      console.error('Email failed:', err)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
@@ -64,36 +82,26 @@ export default function TestIncidentForm() {
         .select()
 
       if (incidentError) throw incidentError
-      if (!incident || incident.length === 0) throw new Error('Failed to create incident')
+      if (!incident || incident.length === 0) throw new Error('Failed')
 
       const incidentId = incident[0].id
 
       for (let i = 0; i < photos.length; i++) {
         const file = photos[i]
         const fileName = `incident-${incidentId}-${i}-${Date.now()}`
-        
-        const { error: uploadError } = await supabase.storage
-          .from('incident-photos')
-          .upload(`${incidentId}/${fileName}`, file)
-
+        const { error: uploadError } = await supabase.storage.from('incident-photos').upload(`${incidentId}/${fileName}`, file)
         if (uploadError) throw uploadError
-
-        const { data } = supabase.storage
-          .from('incident-photos')
-          .getPublicUrl(`${incidentId}/${fileName}`)
-
-        await supabase
-          .from('incident_photos')
-          .insert([{
-            incident_id: incidentId,
-            photo_url: data.publicUrl,
-            original_size: file.size,
-            compressed_size: file.size
-          }])
+        const { data } = supabase.storage.from('incident-photos').getPublicUrl(`${incidentId}/${fileName}`)
+        await supabase.from('incident_photos').insert([{
+          incident_id: incidentId,
+          photo_url: data.publicUrl,
+          original_size: file.size,
+          compressed_size: file.size
+        }])
       }
 
-      setSuccess(`✅ Incident Saved with ${photos.length} photo(s)`)
-      
+      await sendNotificationEmail(formData)
+      setSuccess(`✅ Incident Saved - Team Notified!`)
       setTimeout(() => {
         setFormData({ incident_type: '', location: '', date: new Date().toISOString().split('T')[0], time: new Date().toTimeString().slice(0, 5), victim_name: '', description: '' })
         setPhotos([])
@@ -112,8 +120,8 @@ export default function TestIncidentForm() {
     <div className="min-h-screen bg-gradient-to-br from-green-900 to-green-700 p-8">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">🧪 Report Incident</h1>
-          <p className="text-gray-600 mb-6">With photo upload - Data saved to database</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Report Incident</h1>
+          <p className="text-gray-600 mb-6">With photos & email notifications</p>
           {error && <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6"><p className="text-red-700">{error}</p></div>}
           {success && <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-6"><p className="text-green-700">{success}</p></div>}
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -123,8 +131,8 @@ export default function TestIncidentForm() {
             <div><label className="block text-sm font-semibold text-gray-700 mb-2">Victim Name</label><input type="text" name="victim_name" value={formData.victim_name} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg"/></div>
             <div><label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label><textarea name="description" value={formData.description} onChange={handleInputChange} rows={4} required className="w-full px-4 py-2 border border-gray-300 rounded-lg"/></div>
             <div><label className="block text-sm font-semibold text-gray-700 mb-2">Photos (1-5 required) *</label><input type="file" multiple accept="image/*" onChange={handlePhotoUpload} disabled={photos.length >= 5} className="w-full px-4 py-2 border border-gray-300 rounded-lg"/><p className="text-sm text-gray-500 mt-1">Uploaded: {photos.length}/5</p></div>
-            {photoPreview.length > 0 && <div className="grid grid-cols-3 gap-4">{photoPreview.map((preview, index) => <div key={index} className="relative"><img src={preview} alt={`Preview ${index}`} className="w-full h-24 object-cover rounded-lg"/><button type="button" onClick={() => removePhoto(index)} className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">×</button></div>)}</div>}
-            <button type="submit" disabled={loading || photos.length === 0} className="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg disabled:opacity-50">{loading ? '⏳ Uploading...' : '🚨 SUBMIT'}</button>
+            {photoPreview.length > 0 && <div className="grid grid-cols-3 gap-4">{photoPreview.map((preview, index) => <div key={index} className="relative"><img src={preview} alt="Preview" className="w-full h-24 object-cover rounded-lg"/><button type="button" onClick={() => removePhoto(index)} className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center">×</button></div>)}</div>}
+            <button type="submit" disabled={loading || photos.length === 0} className="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg disabled:opacity-50">{loading ? 'Uploading...' : 'SUBMIT'}</button>
           </form>
         </div>
       </div>
